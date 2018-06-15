@@ -1,7 +1,8 @@
 import React from 'react';
 import {ImageBackground, StatusBar} from 'react-native';
-import { Container, Header, Content, Item, Icon, Input, Form, Label, Title, Body, Button, Text, Thumbnail, Spinner, Left} from 'native-base';
-import { Col, Row, Grid } from "react-native-easy-grid";
+import { Container, Content, Item, Icon, Input, Form, Footer, Button, Text, Spinner} from 'native-base';
+
+const Image = require('../Images/Login.jpg')
 
 export default class LoginView extends React.Component {
   constructor() {
@@ -22,34 +23,24 @@ export default class LoginView extends React.Component {
   render() {
     if(this.state.Font){
       return (
-        <ImageBackground source={require('../Images/Foto.jpg')} resizeMode='cover' style={{width: '100%', height: '100%'}}>
+        <ImageBackground source={Image} resizeMode='cover' style={{width: '100%', height: '100%'}}>
           <Container>
-            <Header>
-              <Left>
-                <Thumbnail source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}} small/>
-              </Left>
-              <Body> 
-                <Title>Login</Title>
-              </Body>
-            </Header>
-            <Content padder contentContainerStyle={{flex:1, justifyContent: 'center'}}>
+            <Content padder contentContainerStyle={{flex:1, justifyContent: 'flex-end'}}>
                 <Form style={{marginRight: 10}}>
-                  <Item floatingLabel>
+                  <Item>
                     <Icon active type='FontAwesome' name='user-circle' style={{color: 'white'}}/>
-                    <Label style={{color: 'white'}}>Username</Label>
-                    <Input style={{color: 'white'}}/>
+                    <Input style={{color: 'white'}} placeholder="Username" />
                   </Item>
-                  <Item floatingLabel>
-                    <Icon active type='MaterialCommunityIcons' name='account-key' style={{color: 'white'}} />
-                    <Label style={{color: 'white'}}>Password</Label>
-                    <Input style={{color: 'white'}} secureTextEntry={true}/>
+                  <Item>
+                    <Icon active type='MaterialIcons' name='vpn-key' style={{color: 'white', fontSize: 20,}}/>
+                    <Input style={{color: 'white'}} secureTextEntry={true} placeholder="Password" />
                   </Item>
                 </Form>
-                <Button block rounded iconLeft style={{marginTop: 40}}>
-                  <Icon active type='FontAwesome' name='lock' style={{color: 'white'}} />
+                <Button block rounded iconLeft style={{marginTop: 40, marginBottom: 40, backgroundColor:'#b33b3c' }}>
                   <Text>Login</Text>
                 </Button>
             </Content>
+            <Footer style={{backgroundColor: 'rgba(0,0,0,0)'}}/>
           </Container>
         </ImageBackground>
       );

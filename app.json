@@ -1,5 +1,23 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+      "sdkVersion": "27.0.0",
+      "name": "CardShop",
+      "description":"CardShop admin APP",
+      "slug": "CardShop",
+      "privacy": "private",
+      "version": "1.0.0",
+      "orientation": "portrait",
+      "primaryColor": "#039BE5",
+      "icon": "./Src/Images/Icon.png",
+      "splash": {
+        "image": "./Src/Images/Login.png",
+        "resizeMode": "cover"
+      },
+      "packagerOpts": {
+        "assetExts": ["ttf"]
+      },
+      "ios": {
+        "supportsTablet": false
+      }
   }
 }

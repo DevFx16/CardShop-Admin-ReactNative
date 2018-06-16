@@ -1,23 +1,29 @@
 {
   "expo": {
-      "sdkVersion": "27.0.0",
-      "name": "CardShop",
-      "description":"CardShop admin APP",
-      "slug": "CardShop",
-      "privacy": "private",
-      "version": "1.0.0",
-      "orientation": "portrait",
-      "primaryColor": "#039BE5",
-      "icon": "./Src/Images/Icon.png",
-      "splash": {
-        "image": "./Src/Images/Login.png",
-        "resizeMode": "cover"
-      },
-      "packagerOpts": {
-        "assetExts": ["ttf"]
-      },
-      "ios": {
-        "supportsTablet": false
-      }
+    "sdkVersion": "27.0.0",
+    "name": "CardShop Admin",
+    "description": "CardShop admin APP",
+    "privacy": "public",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "primaryColor": "#b33b3c",
+    "icon": "./Src/Images/Icon.png",
+    "splash": {
+      "image": "./Src/Images/Login.jpg",
+      "resizeMode": "cover"
+    },
+    "packagerOpts": {
+      "assetExts": [
+        "ttf"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "com.cardshop.cardshop",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.cardshop.cardshop",
+      "versionCode": 1
+    }
   }
 }

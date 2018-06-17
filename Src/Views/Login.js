@@ -1,11 +1,11 @@
 import React from 'react';
-import {ImageBackground, StatusBar, NetInfo} from 'react-native';
+import {ImageBackground, StatusBar, NetInfo, Image} from 'react-native';
 import { Container, Content, Item, Icon, Input, Form, Footer, Button, Text, Spinner, Toast, Root} from 'native-base';
 import Card from '../Controllers/CardController';
 
-var Toaste, Image;
+var Toaste, Image1;
 
-export default class LoginView extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {Font: false, Network: true, User: {Username: '', Password: ''}, Toast: '', status: 400, Token: ''};
@@ -16,7 +16,7 @@ export default class LoginView extends React.Component {
   }
   handleConnectionChange = () => {
     NetInfo.isConnected.fetch().then(isConnected => {
-      Image = isConnected ? require('../Images/Login.jpg') : require('../Images/Conexion.png')
+      Image1 = isConnected ? require('../Images/Login.jpg') : require('../Images/Conexion.png')
       this.setState({ Network: isConnected });
     });
   }
@@ -56,7 +56,7 @@ export default class LoginView extends React.Component {
       if(this.state.Font){
         return (
           <Root>
-            <ImageBackground source={Image} resizeMode='cover' style={{width: '100%', height: '100%'}}>
+            <ImageBackground source={Image1} resizeMode='cover' style={{width: '100%', height: '100%'}}>
               <Container>
                 <Content padder contentContainerStyle={{flex:1, justifyContent: 'flex-end'}}>
                   <Form style={{marginRight: 10}}>
@@ -91,7 +91,7 @@ export default class LoginView extends React.Component {
     }else{
       return(
         <Root>
-          <ImageBackground source={Image} resizeMode='cover' style={{width: '100%', height: '100%'}}/>
+          <Image source={Image1} resizeMode='cover' style={{width: '100%', height: '100%'}}/>
         </Root>
       );
     }

@@ -1,13 +1,15 @@
 import React from 'react';
-import {StatusBar, NetInfo, ImageBackground} from 'react-native';
+import {StatusBar, NetInfo, Image} from 'react-native';
 import { Container, Content, Item, Icon, Input, Form, Footer, Button, Text, Spinner, Toast, Root, FooterTab, StyleProvider} from 'native-base';
 import Card from '../Controllers/CardController';
 import Theme from '../Themes/Tab'
 import getTheme from '../Themes/components';
+import categorias from '../Views/Categorias';
+import Categorias from '../Views/Categorias';
 
-var Toaste, Image;
+var Toaste, Image1;
 
-export default class LoginView extends React.Component {
+export default class Principal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {Font: false, Network: true, Toast: '', Tabs: {Tab1 : true, Tab2: false, Tab3: false}};
@@ -15,11 +17,10 @@ export default class LoginView extends React.Component {
   componentDidMount(){
     NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     StatusBar.setHidden(true);
-    Image = require('../Images/Conexion.png');
   }
   handleConnectionChange = () => {
     NetInfo.isConnected.fetch().then(isConnected => {
-      Image = isConnected ? require('../Images/Login.jpg') : require('../Images/Conexion.png')
+      Image1 = isConnected ? require('../Images/Login.jpg') : require('../Images/Conexion.png')
       this.setState({ Network: isConnected });
     });
   }
@@ -40,28 +41,37 @@ export default class LoginView extends React.Component {
   render() {
     if(this.state.Network){
       if(this.state.Font){
+        var Cont;
+        if(this.state.Tabs.Tab1){
+          Cont = null;
+        }else if(this.state.Tabs.Tab2){
+          Cont = <Categorias/>
+        }else{
+          Cont = null;
+        }
         return (
           <Root>
             <Container>
-              <Content padder contentContainerStyle={{flex:1, justifyContent: 'flex-end'}}>
+              <Content padder>
+                {Cont}
               </Content>
-                <Footer>
-                  <StyleProvider style={getTheme(Theme)}>
-                    <FooterTab style={{backgroundColor: '#ffff'}}>
-                      <Button vertical active={this.state.Tabs.Tab1} onPress={() => this.setState({Tabs: {Tab1 : true, Tab2: false, Tab3: false}})}>
-                        <Icon type='MaterialCommunityIcons' name="wallet-giftcard" color='#b33b3c'/>
-                        <Text active={this.state.Tabs.Tab1}>Cards</Text>
-                      </Button>
-                      <Button vertical active={this.state.Tabs.Tab2} onPress={() => this.setState({Tabs: {Tab1 : false, Tab2: true, Tab3: false}})}>
-                        <Icon type='FontAwesome' name="list-ul" color='#b33b3c'/>
-                        <Text active={this.state.Tabs.Tab2}>categorías</Text>
-                      </Button>
-                      <Button vertical active={this.state.Tabs.Tab3} onPress={() => this.setState({Tabs: {Tab1 : false, Tab2: false, Tab3: true}})}>
-                        <Icon type='MaterialCommunityIcons' name="account" color='#b33b3c'/>
-                        <Text active={this.state.Tabs.Tab3}>Cuenta</Text>
-                      </Button> 
-                    </FooterTab>
-                  </StyleProvider>
+              <Footer>
+                <StyleProvider style={getTheme(Theme)}>
+                  <FooterTab style={{backgroundColor: '#ffff'}}>
+                    <Button vertical active={this.state.Tabs.Tab1} onPress={() => this.setState({Tabs: {Tab1 : true, Tab2: false, Tab3: false}})}>
+                      <Icon type='MaterialCommunityIcons' name="wallet-giftcard" color='#b33b3c'/>
+                      <Text active={this.state.Tabs.Tab1}>Cards</Text>
+                    </Button>
+                    <Button vertical active={this.state.Tabs.Tab2} onPress={() => this.setState({Tabs: {Tab1 : false, Tab2: true, Tab3: false}})}>
+                      <Icon type='FontAwesome' name="list-ul" color='#b33b3c'/>
+                      <Text active={this.state.Tabs.Tab2}>categorías</Text>
+                    </Button>
+                    <Button vertical active={this.state.Tabs.Tab3} onPress={() => this.setState({Tabs: {Tab1 : false, Tab2: false, Tab3: true}})}>
+                      <Icon type='MaterialCommunityIcons' name="account" color='#b33b3c'/>
+                      <Text active={this.state.Tabs.Tab3}>Cuenta</Text>
+                    </Button> 
+                  </FooterTab>
+                </StyleProvider>
               </Footer>
             </Container>
             {Toaste}
@@ -79,7 +89,7 @@ export default class LoginView extends React.Component {
     }else{
       return(
         <Root>
-          <ImageBackground source={Image} resizeMode='cover' style={{width: '100%', height: '100%'}}/>
+          <Image source={Image1} resizeMode='cover' style={{width: '100%', height: '100%'}}/>
         </Root>
       );
     }

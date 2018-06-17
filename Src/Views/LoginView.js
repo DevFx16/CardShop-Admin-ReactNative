@@ -3,8 +3,7 @@ import {ImageBackground, StatusBar, NetInfo} from 'react-native';
 import { Container, Content, Item, Icon, Input, Form, Footer, Button, Text, Spinner, Toast, Root} from 'native-base';
 import Card from '../Controllers/CardController';
 
-const Image = require('../Images/Login.jpg');
-var Toaste;
+var Toaste, Image;
 
 export default class LoginView extends React.Component {
   constructor(props) {
@@ -17,6 +16,7 @@ export default class LoginView extends React.Component {
   }
   handleConnectionChange = () => {
     NetInfo.isConnected.fetch().then(isConnected => {
+      Image = isConnected ? require('../Images/Login.jpg') : require('../Images/Conexion.png')
       this.setState({ Network: isConnected });
     });
   }
@@ -52,39 +52,47 @@ export default class LoginView extends React.Component {
     this.setState({Toast: ''});
   }
   render() {
-    if(this.state.Font){
-      return (
-        <Root>
-          <ImageBackground source={Image} resizeMode='cover' style={{width: '100%', height: '100%'}}>
-            <Container>
-              <Content padder contentContainerStyle={{flex:1, justifyContent: 'flex-end'}}>
-                <Form style={{marginRight: 10}}>
-                  <Item>
-                    <Icon active type='FontAwesome' name='user-circle' style={{color: 'white'}}/>
-                    <Input style={{color: 'white'}} placeholder="Username" onChangeText={(Username) => this.setState({User: {Username: Username, Password: this.state.User.Password}})}/>
-                  </Item>
-                  <Item>
-                    <Icon active type='MaterialIcons' name='vpn-key' style={{color: 'white', fontSize: 20,}}/>
-                    <Input style={{color: 'white'}} secureTextEntry={true} placeholder="Password" onChangeText={(Password) => this.setState({User: {Username: this.state.User.Username, Password: Password}})}/>
-                  </Item>
-                </Form>
-                <Button block rounded iconLeft style={{marginTop: 40, marginBottom: 40, backgroundColor:'#b33b3c' }} onPress={() => this.Login()}>
-                  <Text>Login</Text>
-                </Button>
-              </Content>
-              <Footer style={{backgroundColor: 'rgba(0,0,0,0)'}}/>
-           </Container>
-           {Toaste}
-          </ImageBackground>
-        </Root>
-      );
+    if(this.state.Network){
+      if(this.state.Font){
+        return (
+          <Root>
+            <ImageBackground source={Image} resizeMode='cover' style={{width: '100%', height: '100%'}}>
+              <Container>
+                <Content padder contentContainerStyle={{flex:1, justifyContent: 'flex-end'}}>
+                  <Form style={{marginRight: 10}}>
+                    <Item>
+                      <Icon active type='FontAwesome' name='user-circle' style={{color: 'white'}}/>
+                      <Input style={{color: 'white'}} placeholder="Username" onChangeText={(Username) => this.setState({User: {Username: Username, Password: this.state.User.Password}})}/>
+                    </Item>
+                    <Item>
+                      <Icon active type='MaterialIcons' name='vpn-key' style={{color: 'white', fontSize: 20,}}/>
+                      <Input style={{color: 'white'}} secureTextEntry={true} placeholder="Password" onChangeText={(Password) => this.setState({User: {Username: this.state.User.Username, Password: Password}})}/>
+                    </Item>
+                  </Form>
+                  <Button block rounded iconLeft style={{marginTop: 40, marginBottom: 40, backgroundColor:'#b33b3c' }} onPress={() => this.Login()}>
+                    <Text>Login</Text>
+                  </Button>
+                </Content>
+                <Footer style={{backgroundColor: 'rgba(0,0,0,0)'}}/>
+             </Container>
+             {Toaste}
+            </ImageBackground>
+          </Root>
+        );
+      }else{
+        return(
+          <Container>
+            <Content contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+              <Spinner color='blue' size='large'/>
+            </Content>
+          </Container>
+        );
+      }
     }else{
       return(
-        <Container>
-          <Content contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
-            <Spinner color='blue' size='large'/>
-          </Content>
-        </Container>
+        <Root>
+          <ImageBackground source={Image} resizeMode='cover' style={{width: '100%', height: '100%'}}/>
+        </Root>
       );
     }
   }

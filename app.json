@@ -9,7 +9,7 @@
     "primaryColor": "#b33b3c",
     "icon": "./Src/Images/Icon.png",
     "splash": {
-      "image": "./Src/Images/Login.jpg",
+      "image": "./Src/Images/Conexion.png",
       "resizeMode": "cover"
     },
     "packagerOpts": {

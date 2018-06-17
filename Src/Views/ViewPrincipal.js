@@ -9,7 +9,7 @@ var Toaste;
 export default class LoginView extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {Font: false, Network: true, User: {Username: '', Password: ''}, Toast: '', status: 400, Token: ''};
+    this.state = {Font: false, Network: true, User: {Username: '', Password: ''}, Toast: ''};
   }
   componentDidMount(){
     NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
@@ -29,23 +29,23 @@ export default class LoginView extends React.Component {
     this.setState({Font: true});
   }
   componentDidUpdate(){
-    Toaste = this.state.Toast.length > 0 ? Toast.show({onClose: this.Close, text: this.state.Toast, buttonText: "Okay",duration: 3000, buttonStyle: {backgroundColor: '#b33b3c'}}) : null
+    Toaste = this.state.Toast.length > 0 ? Toast.show({onClose: this.Close, text: this.state.Toast, buttonText: "Okay",duration: 3000, buttonStyle: {backgroundColor: '#b33b3c'}}) : null 
   }
-  Login(){
+ Login(){
+    console.log("Dentro");
     if(this.state.User.Username.length <= 0 || this.state.User.Password.length <= 0){
       this.setState({Toast: 'Se requieren los campos'});
     }else{
-      Card.Login(this.state.User.Username, this.state.User.Password)
+      Card.Login('CardShop', 'CardShop')
       .then((Res) => {
-        this.setState({status: Res.status});
-        (Res.json()).then((Json) => {
-          if(this.state.status == 200){
-            this.setState({Token: Json.token});
-            console.log(Json);
+        let Json = Res.json();
+        console.log(Json);
+        console.log(Res.status == 200);
+          if(Res.status == 200){
+            this.setState({Toast: 'Login: '+Json.Token});
           }else{
             this.setState({Toast: Json});
           }
-        });
       });
     }
   }

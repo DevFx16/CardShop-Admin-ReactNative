@@ -45,14 +45,13 @@ async function Delete(Uri, Id){
 }
 
 function Login(User, Password){
-  fetch((Url+'Login'),{method: 'POST',headers: {Accept: 'application/json','Content-Type': 'application/json',}, body: JSON.stringify({Username: User,Password: Password})})
-  .then((response) => {
-    console.log(response.status);
-    return response;
+  return fetch((Url+'Login'),{method: 'POST',headers: {Accept: 'application/json','Content-Type': 'application/json',}, body: JSON.stringify({Username: User,Password: Password})})
+    .then((Response) => {
+      return Response;
+    })
+    .catch((Error) =>{
+      return Error;
   })
-  .catch((error)=>{
-    return null;
-  });
 }
 
 module.exports = {Get, GetId, Login, Delete}

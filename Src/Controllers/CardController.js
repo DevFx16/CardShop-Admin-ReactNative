@@ -39,7 +39,7 @@ async function Delete(Uri, Id){
     let response = await fetch((Url+Uri+Id), {method: 'DELETE',headers: {Accept: 'application/json','Content-Type': 'application/json'}});
     let responseJson = await response.json();
     return responseJson;
-  } catch (error) {
+  }   catch (error) {
     console.error(error);
   }
 }

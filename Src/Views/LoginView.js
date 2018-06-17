@@ -41,7 +41,6 @@ export default class LoginView extends React.Component {
         (Res.json()).then((Json) => {
           if(this.state.status == 200){
             this.setState({Token: Json.token});
-            console.log(Json);
           }else{
             this.setState({Toast: Json});
           }

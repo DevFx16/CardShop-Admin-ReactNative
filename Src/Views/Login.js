@@ -35,7 +35,7 @@ export default class Login extends React.Component {
     if(this.state.User.Username.length <= 0 || this.state.User.Password.length <= 0){
       this.setState({Toast: 'Se requieren los campos'});
     }else{
-      Card.Login(this.state.User.Username, this.state.User.Password)
+       Card.Login(this.state.User.Username, this.state.User.Password)
       .then((Res) => {
         this.setState({status: Res.status});
         (Res.json()).then((Json) => {
@@ -69,7 +69,7 @@ export default class Login extends React.Component {
                       <Input style={{color: 'white'}} secureTextEntry={true} placeholder="Password" onChangeText={(Password) => this.setState({User: {Username: this.state.User.Username, Password: Password}})}/>
                     </Item>
                   </Form>
-                  <Button block rounded iconLeft style={{marginTop: 40, marginBottom: 40, backgroundColor:'#b33b3c' }} onPress={() => this.Login()}>
+                  <Button block rounded iconLeft style={{marginTop: 40, marginBottom: 40, backgroundColor:'#b33b3c' }} onPress={() => this.Login()}  ref={"Boton"}>
                     <Text>Login</Text>
                   </Button>
                 </Content>

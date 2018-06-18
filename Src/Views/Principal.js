@@ -92,3 +92,8 @@ export default class Principal extends React.Component {
     }
   }
 }
+
+/*Principal.PropTypes = {
+  Token: PropTypes.string.isRequired
+}
+*/

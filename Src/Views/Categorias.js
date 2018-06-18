@@ -17,8 +17,8 @@ export default class Categorias extends React.Component {
           {
             Array.map((Categoria, index) =>{
               return(
-                <Card key={index} style={{borderColor: '#ffff'}}>
-                  <CardItem button icon Bordered onPress={() => alert("Has Presionado: "+Categoria.Nombre)}>
+                <Card key={index} style={{borderWidth: 0, borderRadius: 10, borderColor: '#324054'}}>
+                  <CardItem button icon onPress={() => alert("Has Presionado: "+Categoria.Nombre)} style={{borderColor: '#324054', borderWidth: 0, backgroundColor: '#324054'}}>
                     <Left>
                       <Icon name={Categoria.Icon.Nombre} type={Categoria.Icon.Tipo} style={{color:'#ffff'}}/>
                     </Left>

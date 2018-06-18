@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image} from 'react-native';
-import {Text, Icon, Header, Item, Input, Button, Content, Container, StyleProvider, Body, Left, Card, CardItem, Thumbnail} from 'native-base';
+import {Text, Icon, Header, Item, Input, Button, Content, Container, StyleProvider, Body, Left, Card, CardItem, Thumbnail, Right} from 'native-base';
 import Theme from '../Themes/Tab';
 import getTheme from '../Themes/components';
 
@@ -24,23 +24,31 @@ export default class Cards extends React.Component {
         </Header>
         <Content padder>
           <StyleProvider style={getTheme(Theme)}>
-            <Card>
-              <CardItem>
+            <Card style={{borderWidth: 0, borderRadius: 10, borderColor: '#324054'}}>
+              <CardItem style={{borderColor: '#324054', borderWidth: 0, backgroundColor: '#324054'}} bordered>
                 <Left>
                   <Thumbnail source={require('../Images/amazon.png')} small/>
-                <Body>
-                  <Text style={{color: '#ffff'}}>GiftCard Amazon</Text>
-                </Body>
               </Left>
+              <Text style={{color: '#ffff'}}>GiftCard Amazon</Text>
               </CardItem>
-              <CardItem cardBody>
+              <CardItem cardBody style={{borderColor: '#324054', borderWidth: 0}} bordered>
                 <Image source={require('../Images/Gift.png')} resizeMode='cover' style={{height: 200, width: null ,flex: 1}}/> 
               </CardItem>
-              <CardItem>
-                <Left>
-                  <Icon active name="check-circle" type={'FontAwesome'} style={{color: '#ffff'}} />
-                  <Text style={{color: '#ffff'}}>Disponible 40</Text>
+              <CardItem style={{borderColor: '#324054', borderWidth: 0}} bordered>
+                <Left style={{borderColor: '#324054', borderWidth: 0}}>
+                  <Button transparent>
+                    <Icon active name="heart" type={'FontAwesome'} style={{color: '#ffff'}} />
+                  </Button>
                 </Left>
+                <Body>
+                  <Button transparent>
+                    <Icon active name="shopping-bag" type={'FontAwesome'} style={{color: '#ffff'}}/>
+                  </Button>
+                </Body>
+                <Right>
+                  <Icon active name="check-circle" type={'FontAwesome'} style={{color: '#ffff'}} />
+                  <Text style={{color: '#ffff'}}>40</Text>
+                </Right>
               </CardItem>
             </Card>
           </StyleProvider>

@@ -31,6 +31,10 @@ export default class Principal extends React.Component {
     });
     this.setState({Font: true});
   }
+  getData(val){
+    // do not forget to bind getData in constructor
+    console.log(val);
+  }
   componentDidUpdate(){
     Toaste = this.state.Toast.length > 0 ? Toast.show({onClose: this.Close, text: this.state.Toast, buttonText: "Okay",duration: 3000, buttonStyle: {backgroundColor: '#d93e3f'}}) : null 
   }
@@ -42,7 +46,7 @@ export default class Principal extends React.Component {
       if(this.state.Font){
         var Cont;
         if(this.state.Tabs.Tab1){
-          Cont = <Cards/>;
+          Cont = <Cards sendData={this.getData}/>;
         }else if(this.state.Tabs.Tab2){
           Cont = <Categorias/>
         }else{

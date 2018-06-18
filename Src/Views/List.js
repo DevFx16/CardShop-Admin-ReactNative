@@ -1,6 +1,8 @@
 import React from 'react';
-import {Card, CardItem, Icon, Button, View, Left, Right, Text, StyleProvider} from 'native-base';
+import {Card, CardItem, Icon, Button, Left, Right, Text, StyleProvider, View} from 'native-base';
 import PropTypes from 'prop-types';
+import Theme from '../Themes/Tab'
+import getTheme from '../Themes/components';
 
 export default class List extends React.Component {
 
@@ -10,7 +12,7 @@ export default class List extends React.Component {
 
   render(){
     return(
-      <StyleProvider style={getTheme(Theme)}>
+      <View>
         {
           this.props.Array.map((Data, index) =>{
             return(
@@ -33,7 +35,7 @@ export default class List extends React.Component {
             );
           })
         }
-      </StyleProvider>
+      </View>
     );
   }
 

@@ -36,7 +36,7 @@ export default class Cards extends React.Component {
               </CardItem>
               <CardItem style={{borderColor: '#324054', borderWidth: 0}} bordered>
                 <Left style={{borderColor: '#324054', borderWidth: 0}}>
-                  <Button transparent>
+                  <Button transparent onPress={this.props.sendData('Hola')}>
                     <Icon active name="heart" type={'FontAwesome'} style={{color: '#ffff'}} />
                   </Button>
                 </Left>

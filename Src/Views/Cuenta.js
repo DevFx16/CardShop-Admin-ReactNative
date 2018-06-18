@@ -1,7 +1,5 @@
 import React from 'react';
 import {Icon, Content, Button, Container, Header, Item, Input, Thumbnail} from 'native-base';
-import Theme from '../Themes/Tab'
-import getTheme from '../Themes/components';
 import Lista from '../Views/List';
 import { Col, Row, Grid } from "react-native-easy-grid";
 

@@ -24,12 +24,12 @@ export default class Cards extends React.Component {
         </Header>
         <Content padder>
           <StyleProvider style={getTheme(Theme)}>
-            <Card style={{borderWidth: 0, borderRadius: 10, borderColor: '#324054'}}>
-              <CardItem style={{borderColor: '#324054', borderWidth: 0, backgroundColor: '#324054'}} bordered>
+            <Card style={{borderWidth: 0, borderRadius: 10, borderColor: '#324054', backgroundColor: '#222b38'}}>
+              <CardItem style={{borderColor: '#324054', borderWidth: 0, backgroundColor: '#324054', flexDirection: 'row', justifyContent: 'space-around'}} bordered>
                 <Left>
                   <Thumbnail source={require('../Images/amazon.png')} small/>
-              </Left>
-              <Text style={{color: '#ffff'}}>GiftCard Amazon</Text>
+                  <Text style={{color: '#ffff'}}>GiftCard Amazon</Text>
+                </Left>
               </CardItem>
               <CardItem cardBody style={{borderColor: '#324054', borderWidth: 0}} bordered>
                 <Image source={require('../Images/Gift.png')} resizeMode='cover' style={{height: 200, width: null ,flex: 1}}/> 
@@ -40,14 +40,14 @@ export default class Cards extends React.Component {
                     <Icon active name="heart" type={'FontAwesome'} style={{color: '#ffff'}} />
                   </Button>
                 </Left>
-                <Body>
+                <Body style={{flexDirection: "row", justifyContent: "center"}}>
                   <Button transparent>
                     <Icon active name="shopping-bag" type={'FontAwesome'} style={{color: '#ffff'}}/>
                   </Button>
                 </Body>
-                <Right>
+                <Right style={{flexDirection: "row", justifyContent: 'flex-end'}}>
                   <Icon active name="check-circle" type={'FontAwesome'} style={{color: '#ffff'}} />
-                  <Text style={{color: '#ffff'}}>40</Text>
+                  <Text style={{color: '#ffff', marginLeft: 5}}>40</Text>
                 </Right>
               </CardItem>
             </Card>

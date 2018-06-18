@@ -1,42 +1,15 @@
 import React from 'react';
-import {Text, Icon, Content, SwipeRow, Button, Container, Header, Item, Input, View} from 'native-base';
+import {Icon, Content, Button, Container, Header, Item, Input, Thumbnail} from 'native-base';
 import Theme from '../Themes/Tab'
 import getTheme from '../Themes/components';
 import Lista from '../Views/List';
+import { Col, Row, Grid } from "react-native-easy-grid";
 
 export default class Cuenta extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {Array: ["hola", "hola 1"]}
-  }
-
-  List(Array){
-    Array.map((Data, index) =>{
-      return(
-        <View style={{backgroundColor: '#324054', borderWidth: 0, borderColor: '#324054', marginBottom: 10}}  key={index}>
-          <SwipeRow style={{backgroundColor: '#324054', borderWidth: 0, borderColor: '#324054'}}
-            leftOpenValue={75}
-            rightOpenValue={-75}
-            left={
-              <Button primary onPress={() => alert('Edit')}>
-                <Icon active name="edit" type='FontAwesome'/>
-              </Button>
-            }
-            body={
-              <View>
-                <Text style={{color: '#ffff'}}>GiftCard Amazon 100 USD</Text>
-              </View>
-            }
-            right={
-              <Button danger onPress={() => alert('Trash')}>
-                <Icon active name="trash"type='Entypo' />
-              </Button>
-            }
-          />
-        </View>
-      );
-    })
+    this.state = {Array: ["Amazon 100 USD", "Amazon 50 USD"]}
   }
 
   render(){
@@ -48,12 +21,21 @@ export default class Cuenta extends React.Component {
             <Input placeholder="Buscar" />
             <Icon name="cards" type='MaterialCommunityIcons' style={{color: '#d93e3f'}}/>
             <Button transparent>
-              <Text style={{color: '#d93e3f'}}>Buscar</Text>
+              <Icon active name="add-to-photos" type='MaterialIcons' style={{color: '#d93e3f'}}/>
             </Button>
           </Item>
         </Header>
-        <Content padder>
-          <Lista Array={this.state.Array}/>
+        <Content padder contentContainerStyle={{alignContent: 'center'}}>
+          <Grid>
+            <Row style={{justifyContent: 'center'}} size={1}>
+              <Thumbnail source={require('../Images/amazon.png')} large/>
+            </Row>
+            <Lista Array={this.state.Array} Icon={{Nombre: 'amazon', Tipo: 'FontAwesome'}}/>
+            <Row style={{justifyContent: 'center'}} size={1}>
+              <Thumbnail source={{uri: 'https://cdn4.iconfinder.com/data/icons/free-colorful-icons/360/google_play.png'}} large/>
+            </Row>
+            <Lista Array={["Google Play 100 USD", "Google Play 50 USD"]} Icon={{Nombre: 'google-play', Tipo: 'Entypo'}}/>
+          </Grid>
         </Content>
       </Container>
     );

@@ -1,50 +1,45 @@
 import React from 'react';
-import {Text, Icon, SwipeRow, Button, View} from 'native-base';
+import {Card, CardItem, Icon, Button, View, Left, Right, Text, StyleProvider} from 'native-base';
 import PropTypes from 'prop-types';
 
 export default class List extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {Array: ["hola", "hola 1"]}
   }
 
   render(){
     return(
-      <View>
+      <StyleProvider style={getTheme(Theme)}>
         {
           this.props.Array.map((Data, index) =>{
             return(
-              <View style={{backgroundColor: '#324054', borderWidth: 0, borderColor: '#324054', marginBottom: 10}}  key={index}>
-                <SwipeRow style={{backgroundColor: '#324054', borderWidth: 0, borderColor: '#324054'}}
-                  leftOpenValue={75}
-                  rightOpenValue={-75}
-                  left={
-                    <Button primary onPress={() => alert('Edit')}>
-                      <Icon active name="edit" type='FontAwesome'/>
+              <Card key={index} style={{borderWidth: 0, borderRadius: 10, borderColor: '#324054', backgroundColor: '#324054'}}>
+                <CardItem icon style={{borderColor: '#324054', borderWidth: 0, backgroundColor: '#324054'}}>
+                  <Left>
+                    <Button transparent onPress={() => alert('Edit')} iconLeft>
+                      <Icon active name="edit" type='FontAwesome' style={{color:'blue'}}/>
                     </Button>
-                  }
-                  body={
-                    <View>
-                      <Text style={{color: '#ffff'}}>GiftCard Amazon 100 USD</Text>
-                    </View>
-                  }
-                  right={
-                    <Button danger onPress={() => alert('Trash')}>
-                      <Icon active name="trash"type='Entypo' />
+                  </Left>
+                  <Text style={{color: "#ffff"}}>{Data}</Text>
+                  <Icon name={this.props.Icon.Nombre} type={this.props.Icon.Tipo} style={{color:'#ffff'}}/>
+                  <Right>
+                    <Button transparent onPress={() => alert('Trash')} iconLeft>
+                      <Icon active name="trash"type='Entypo' style={{color:'red'}}/>
                     </Button>
-                  }
-                />
-              </View>
+                  </Right>
+                </CardItem>
+              </Card>
             );
           })
         }
-      </View>
+      </StyleProvider>
     );
   }
 
 }
 
 List.propTypes = {
-  Array: PropTypes.array.isRequired
+  Array: PropTypes.array.isRequired,
+  Icon: PropTypes.object.isRequired
 }

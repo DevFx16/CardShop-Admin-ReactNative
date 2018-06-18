@@ -5,7 +5,7 @@ import Theme from '../Themes/Tab'
 import getTheme from '../Themes/components';
 import Cards from '../Views/Cards';
 import Categorias from '../Views/Categorias';
-
+import Cuenta from '../Views/Cuenta';
 var Toaste, Image1;
 
 export default class Principal extends React.Component {
@@ -46,7 +46,7 @@ export default class Principal extends React.Component {
         }else if(this.state.Tabs.Tab2){
           Cont = <Categorias/>
         }else{
-          Cont = null;
+          Cont = <Cuenta/>;
         }
         return (
           <Root>

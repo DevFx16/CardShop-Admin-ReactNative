@@ -1,10 +1,9 @@
 import React from 'react';
 import {StatusBar, NetInfo, Image} from 'react-native';
-import { Container, Content, Item, Icon, Input, Form, Footer, Button, Text, Spinner, Toast, Root, FooterTab, StyleProvider} from 'native-base';
-import Card from '../Controllers/CardController';
+import { Container, Content, Icon, Footer, Button, Text, Spinner, Toast, Root, FooterTab, StyleProvider, Card} from 'native-base';
 import Theme from '../Themes/Tab'
 import getTheme from '../Themes/components';
-import categorias from '../Views/Categorias';
+import Cards from '../Views/Cards';
 import Categorias from '../Views/Categorias';
 
 var Toaste, Image1;
@@ -33,7 +32,7 @@ export default class Principal extends React.Component {
     this.setState({Font: true});
   }
   componentDidUpdate(){
-    Toaste = this.state.Toast.length > 0 ? Toast.show({onClose: this.Close, text: this.state.Toast, buttonText: "Okay",duration: 3000, buttonStyle: {backgroundColor: '#b33b3c'}}) : null 
+    Toaste = this.state.Toast.length > 0 ? Toast.show({onClose: this.Close, text: this.state.Toast, buttonText: "Okay",duration: 3000, buttonStyle: {backgroundColor: '#d93e3f'}}) : null 
   }
   Close = () => {
     this.setState({Toast: ''});
@@ -43,7 +42,7 @@ export default class Principal extends React.Component {
       if(this.state.Font){
         var Cont;
         if(this.state.Tabs.Tab1){
-          Cont = null;
+          Cont = <Cards/>;
         }else if(this.state.Tabs.Tab2){
           Cont = <Categorias/>
         }else{
@@ -51,23 +50,21 @@ export default class Principal extends React.Component {
         }
         return (
           <Root>
-            <Container>
-              <Content padder>
-                {Cont}
-              </Content>
+            <Container style={{backgroundColor: '#222b38'}}>
+              {Cont}
               <Footer>
                 <StyleProvider style={getTheme(Theme)}>
-                  <FooterTab style={{backgroundColor: '#ffff'}}>
+                  <FooterTab>
                     <Button vertical active={this.state.Tabs.Tab1} onPress={() => this.setState({Tabs: {Tab1 : true, Tab2: false, Tab3: false}})}>
-                      <Icon type='MaterialCommunityIcons' name="wallet-giftcard" color='#b33b3c'/>
+                      <Icon type='MaterialCommunityIcons' name="wallet-giftcard" color='#d93e3f'/>
                       <Text active={this.state.Tabs.Tab1}>Cards</Text>
                     </Button>
                     <Button vertical active={this.state.Tabs.Tab2} onPress={() => this.setState({Tabs: {Tab1 : false, Tab2: true, Tab3: false}})}>
-                      <Icon type='FontAwesome' name="list-ul" color='#b33b3c'/>
+                      <Icon type='FontAwesome' name="list-ul" color='#d93e3f'/>
                       <Text active={this.state.Tabs.Tab2}>categorías</Text>
                     </Button>
                     <Button vertical active={this.state.Tabs.Tab3} onPress={() => this.setState({Tabs: {Tab1 : false, Tab2: false, Tab3: true}})}>
-                      <Icon type='MaterialCommunityIcons' name="account" color='#b33b3c'/>
+                      <Icon type='MaterialCommunityIcons' name="account" color='#d93e3f'/>
                       <Text active={this.state.Tabs.Tab3}>Cuenta</Text>
                     </Button> 
                   </FooterTab>

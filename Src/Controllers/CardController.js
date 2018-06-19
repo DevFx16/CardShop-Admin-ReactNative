@@ -44,8 +44,8 @@ async function Delete(Uri, Id){
   }
 }
 
-function Login(User, Password){
-  return fetch((Url+'Login'),{method: 'POST',headers: {Accept: 'application/json','Content-Type': 'application/json',}, body: JSON.stringify({Username: User,Password: Password})})
+function Login(Json){
+  return fetch((Url+'Login'),{method: 'POST',headers: {Accept: 'application/json','Content-Type': 'application/json'}, body: Json})
     .then((Response) => {
       return Response;
     })

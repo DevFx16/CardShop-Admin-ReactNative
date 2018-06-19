@@ -6,6 +6,8 @@ import getTheme from '../Themes/components';
 import Cards from '../Views/Cards';
 import Categorias from '../Views/Categorias';
 import Cuenta from '../Views/Cuenta';
+import PropTypes from 'prop-types';
+
 var Toaste, Image1;
 
 export default class Principal extends React.Component {
@@ -97,7 +99,6 @@ export default class Principal extends React.Component {
   }
 }
 
-/*Principal.PropTypes = {
+Principal.PropTypes = {
   Token: PropTypes.string.isRequired
 }
-*/

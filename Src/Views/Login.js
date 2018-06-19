@@ -39,13 +39,13 @@ export default class Login extends React.Component {
       Card.Login(JSON.stringify(this.state.User))
       .then((Res) => {
         this.setState({status: Res.status});
-        console.log(Res.json);
-        /*if(this.state.status == 200){
-          this.setState({Token: Json.token});
-        }else{
-          this.setState({Toast: Json});
-        }
-        */
+        (Res.json()).then((Json) =>{
+          if(this.state.status == 200){
+            this.setState({Token: Json.token});
+          }else{
+            this.setState({Toast: Json});
+          }
+        })
       });
     }
   }

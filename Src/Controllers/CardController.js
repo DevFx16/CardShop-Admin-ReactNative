@@ -1,6 +1,6 @@
 'use strict'
 
-const Url = 'https://cardshopadmin.herokuapp.com/Cards/';
+const Url = 'https://cards-cardshop.herokuapp.com/Cards/';
 
 async function Get(Uri){
   try {

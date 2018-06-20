@@ -26,6 +26,16 @@ async function SetToken(Data, Key){
   } catch (err) {}
 }
 
+function Verificar(Token){
+  return fetch((Url + 'Login'), { method: 'GET', headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'Authorization' : 'Bearer '+Token }})
+    .then((Response) => {
+      return Response;
+    })
+    .catch((Error) => {
+      return Error;
+    })
+}
+
 async function Delete(Uri, Id) {
   try {
     let response = await fetch((Url + Uri + Id), { method: 'DELETE', headers: { Accept: 'application/json', 'Content-Type': 'application/json' } });
@@ -46,4 +56,4 @@ function Login(Json) {
     })
 }
 
-module.exports = { Get, Login, Delete, Token, SetToken }
+module.exports = { Get, Login, Delete, Token, SetToken, Verificar }

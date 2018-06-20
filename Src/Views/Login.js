@@ -15,9 +15,20 @@ export default class Login extends React.Component {
 
   componentDidMount() {
     Card.Token('Token').then((Value) => {
-      if(Value !== null){
-        Json = JSON.parse(Value);
-        this.setState({ Token: Json.token});
+      if (Value !== null) {
+        Card.Verificar(Value.token).then((Res) => {
+          if (Res.status == 200) {
+            Json = JSON.parse(Value);
+            this.setState({ Token: Json.token });
+          } else {
+            Card.Token('User').then((User) => {
+              if (User !== null) {
+                this.setState({ User: User });
+                this.Login();
+              }
+            });
+          }
+        });
       }
     });
     NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
@@ -38,7 +49,7 @@ export default class Login extends React.Component {
     });
     this.setState({ Font: true });
   }
-  async Login() {
+  Login() {
     if (this.state.User.Username.length <= 0 || this.state.User.Password.length <= 0) {
       this.setState({ ModalTexto: 'Se requieren los campos', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });
     } else {
@@ -48,8 +59,8 @@ export default class Login extends React.Component {
           this.setState({ status: Res.status });
           (Res.json()).then((Json) => {
             if (this.state.status == 200) {
-                Card.SetToken(Json, 'Token');
-                Card.SetToken(this.state.User, 'User');
+              Card.SetToken(Json, 'Token');
+              Card.SetToken(this.state.User, 'User');
               this.setState({ Token: Json.token, ModalView: false });
             } else {
               this.setState({ ModalTexto: Json, ModalImage: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });

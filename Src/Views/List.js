@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardItem, Icon, Button, Left, Right, Text, StyleProvider, View} from 'native-base';
+import { Card, CardItem, Icon, Button, Left, Right, Text, StyleProvider, View } from 'native-base';
 import PropTypes from 'prop-types';
 import Theme from '../Themes/Tab'
 import getTheme from '../Themes/components';
@@ -10,24 +10,24 @@ export default class List extends React.Component {
     super(props);
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <View>
         {
-          this.props.Array.map((Data, index) =>{
-            return(
-              <Card key={index} style={{borderWidth: 0, borderRadius: 10, borderColor: '#324054', backgroundColor: '#324054'}}>
-                <CardItem icon style={{borderColor: '#324054', borderWidth: 0, backgroundColor: '#324054'}}>
+          this.props.Array.map((Data, index) => {
+            return (
+              <Card key={index} style={{ borderWidth: 0, borderRadius: 10, borderColor: '#324054', backgroundColor: '#324054' }}>
+                <CardItem icon style={{ borderColor: '#324054', borderWidth: 0, backgroundColor: '#324054' }}>
                   <Left>
                     <Button transparent onPress={() => alert('Edit')} iconLeft>
-                      <Icon active name="edit" type='FontAwesome' style={{color:'blue'}}/>
+                      <Icon active name="edit" type='FontAwesome' style={{ color: 'blue' }} />
                     </Button>
                   </Left>
-                  <Text style={{color: "#ffff"}}>{Data}</Text>
-                  <Icon name={this.props.Icon.Nombre} type={this.props.Icon.Tipo} style={{color:'#ffff'}}/>
+                  <Text style={{ color: "#ffff" }}>{Data}</Text>
+                  <Icon name={this.props.Icon.Nombre} type={this.props.Icon.Tipo} style={{ color: '#ffff' }} />
                   <Right>
                     <Button transparent onPress={() => alert('Trash')} iconLeft>
-                      <Icon active name="trash"type='Entypo' style={{color:'red'}}/>
+                      <Icon active name="trash" type='Entypo' style={{ color: 'red' }} />
                     </Button>
                   </Right>
                 </CardItem>

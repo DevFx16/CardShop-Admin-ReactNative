@@ -2,31 +2,31 @@
 
 const Url = 'https://cards-cardshop.herokuapp.com/Cards/';
 
-async function Get(Uri){
+async function Get(Uri) {
   try {
-    let response = await fetch((Url+Uri));
+    let response = await fetch((Url + Uri));
     let responseJson = await response.json();
     console.log(responseJson);
     return responseJson;
   } catch (error) {
-   return null;
+    return null;
   }
 }
 
-async function GetId(Uri, Id){
+async function GetId(Uri, Id) {
   try {
-    let response = await fetch((Url+Uri+Id));
+    let response = await fetch((Url + Uri + Id));
     let responseJson = await response.json();
     console.log(responseJson);
     return responseJson;
   } catch (error) {
-   return null;
+    return null;
   }
 }
 
-async function Delete(Uri, Id){
+async function Delete(Uri, Id) {
   try {
-    let response = await fetch((Url+Uri+Id));
+    let response = await fetch((Url + Uri + Id));
     let responseJson = await response.json();
     return responseJson;
   } catch (error) {
@@ -34,24 +34,24 @@ async function Delete(Uri, Id){
   }
 }
 
-async function Delete(Uri, Id){
+async function Delete(Uri, Id) {
   try {
-    let response = await fetch((Url+Uri+Id), {method: 'DELETE',headers: {Accept: 'application/json','Content-Type': 'application/json'}});
+    let response = await fetch((Url + Uri + Id), { method: 'DELETE', headers: { Accept: 'application/json', 'Content-Type': 'application/json' } });
     let responseJson = await response.json();
     return responseJson;
-  }   catch (error) {
+  } catch (error) {
     console.error(error);
   }
 }
 
-function Login(Json){
-  return fetch((Url+'Login'),{method: 'POST',headers: {Accept: 'application/json','Content-Type': 'application/json'}, body: Json})
+function Login(Json) {
+  return fetch((Url + 'Login'), { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: Json })
     .then((Response) => {
       return Response;
     })
-    .catch((Error) =>{
+    .catch((Error) => {
       return Error;
-  })
+    })
 }
 
-module.exports = {Get, GetId, Login, Delete}
+module.exports = { Get, GetId, Login, Delete }

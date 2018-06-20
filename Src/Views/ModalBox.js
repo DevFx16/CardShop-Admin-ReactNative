@@ -17,7 +17,7 @@ export default class ModalBox extends React.Component {
   }
   render() {
     return (
-      <Modal style={{ borderRadius: 20, shadowRadius: 20, width: Dimensions.get('window').width - 60, height: 180 }} position={"center"} ref={"Modal"} isDisabled={false} backdropPressToClose={false} swipeToClose={false}>
+      <Modal style={{ borderRadius: 20, shadowRadius: 20, width: Dimensions.get('window').width - 100, height: 160 }} position={"center"} ref={"Modal"} isDisabled={false} backdropPressToClose={false} swipeToClose={false}>
         <Header style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20, backgroundColor: '#ffff', borderColor: '#ffff' }}>
           <Item style={{ justifyContent: 'flex-end', flex: 1, flexDirection: 'row', marginRight: 15, marginTop: 5 }}>
             {this.props.Close ?
@@ -29,7 +29,7 @@ export default class ModalBox extends React.Component {
         <Grid style={{ flex: 1 }}>
           <Col size={1} style={{ justifyContent: 'center', marginLeft: 20 }}>
             {this.props.SpinnerComp ? <Spinner color='red' size='large' /> : null}
-            {this.props.Image ? <Thumbnail source={{ uri: this.props.ImageSet }} large/> : null}
+            {this.props.Image ? <Thumbnail source={{ uri: this.props.ImageSet }}/> : null}
           </Col>
           <Col size={2} style={{ justifyContent: 'center' }}>
             <Text style={{ color: 'black' }}>{this.props.Text}</Text>

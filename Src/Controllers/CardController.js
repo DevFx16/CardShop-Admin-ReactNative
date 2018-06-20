@@ -1,10 +1,11 @@
 'use strict'
+import {AsyncStorage} from 'react-native';
 
 const Url = 'https://cards-cardshop.herokuapp.com/Cards/';
 
-async function Get(Uri) {
+async function Get() {
   try {
-    let response = await fetch((Url + Uri));
+    let response = await fetch('https://cards-cardshop.herokuapp.com/Usuarios');
     let responseJson = await response.json();
     console.log(responseJson);
     return responseJson;
@@ -13,25 +14,16 @@ async function Get(Uri) {
   }
 }
 
-async function GetId(Uri, Id) {
+async function Token(Key) {
   try {
-    let response = await fetch((Url + Uri + Id));
-    let responseJson = await response.json();
-    console.log(responseJson);
-    return responseJson;
-  } catch (error) {
-    return null;
-  }
+    return await AsyncStorage.getItem(Key);
+  } catch (error) { }
 }
 
-async function Delete(Uri, Id) {
+async function SetToken(Data, Key){
   try {
-    let response = await fetch((Url + Uri + Id));
-    let responseJson = await response.json();
-    return responseJson;
-  } catch (error) {
-    console.error(error);
-  }
+    await AsyncStorage.setItem(Key, JSON.stringify(Data));
+  } catch (err) {}
 }
 
 async function Delete(Uri, Id) {
@@ -54,4 +46,4 @@ function Login(Json) {
     })
 }
 
-module.exports = { Get, GetId, Login, Delete }
+module.exports = { Get, Login, Delete, Token, SetToken }

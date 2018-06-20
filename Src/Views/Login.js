@@ -12,7 +12,14 @@ export default class Login extends React.Component {
     super(props);
     this.state = { Font: false, Network: true, User: { Username: '', Password: '' }, ModalTexto: '', status: 400, Token: '', ModalView: false, ModalImage: false, ModalImageSet: '' };
   }
+
   componentDidMount() {
+    Card.Token('Token').then((Value) => {
+      if(Value !== null){
+        Json = JSON.parse(Value);
+        this.setState({ Token: Json.token});
+      }
+    });
     NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     StatusBar.setHidden(true);
     LoginImage = require('../Images/Login.jpg');
@@ -31,7 +38,7 @@ export default class Login extends React.Component {
     });
     this.setState({ Font: true });
   }
-  Login = () => {
+  async Login() {
     if (this.state.User.Username.length <= 0 || this.state.User.Password.length <= 0) {
       this.setState({ ModalTexto: 'Se requieren los campos', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });
     } else {
@@ -41,6 +48,8 @@ export default class Login extends React.Component {
           this.setState({ status: Res.status });
           (Res.json()).then((Json) => {
             if (this.state.status == 200) {
+                Card.SetToken(Json, 'Token');
+                Card.SetToken(this.state.User, 'User');
               this.setState({ Token: Json.token, ModalView: false });
             } else {
               this.setState({ ModalTexto: Json, ModalImage: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });

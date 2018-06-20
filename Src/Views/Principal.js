@@ -1,28 +1,24 @@
 import React from 'react';
-import { StatusBar, NetInfo } from 'react-native';
-import { Container, Content, Icon, Footer, Button, Text, Spinner, Toast, Root, FooterTab, StyleProvider, Card } from 'native-base';
+import { Container, Content, Icon, Footer, Button, Text, Spinner, Root, FooterTab, StyleProvider, Card } from 'native-base';
 import Theme from '../Themes/Tab'
 import getTheme from '../Themes/components';
 import Cards from '../Views/Cards';
+import Controller from '../Controllers/CardController';
 import Categorias from '../Views/Categorias';
 import Cuenta from '../Views/Cuenta';
 import PropTypes from 'prop-types';
 
-var Toaste, Conexion;
+var Conexion;
 
 export default class Principal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { Font: false, Network: true, Toast: '', Tabs: { Tab1: true, Tab2: false, Tab3: false } };
+    this.state = { Font: false, Network: true, Tabs: { Tab1: true, Tab2: false, Tab3: false }, Cards: false, Backend: [] };
     Conexion = require('../Images/Conexion.png');
   }
   componentDidMount() {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
-    StatusBar.setHidden(true);
-  }
-  handleConnectionChange = () => {
-    NetInfo.isConnected.fetch().then(isConnected => {
-      this.setState({ Network: isConnected });
+    Controller.Get().then((json) => {
+      this.setState({ Backend: json, Cards: true });
     });
   }
   async componentWillMount() {
@@ -37,63 +33,46 @@ export default class Principal extends React.Component {
     // do not forget to bind getData in constructor
     console.log(val);
   }
-  componentDidUpdate() {
-    Toaste = this.state.Toast.length > 0 ? Toast.show({ onClose: this.Close, text: this.state.Toast, buttonText: "Okay", duration: 3000, buttonStyle: { backgroundColor: '#d93e3f' } }) : null
-  }
-  Close = () => {
-    this.setState({ Toast: '' });
-  }
   render() {
-    if (this.state.Network) {
-      if (this.state.Font) {
-        var Cont;
-        if (this.state.Tabs.Tab1) {
-          Cont = <Cards sendData={this.getData} />;
-        } else if (this.state.Tabs.Tab2) {
-          Cont = <Categorias />
-        } else {
-          Cont = <Cuenta />;
-        }
-        return (
-          <Root>
-            <Container style={{ backgroundColor: '#222b38' }}>
-              {Cont}
-              <Footer>
-                <StyleProvider style={getTheme(Theme)}>
-                  <FooterTab>
-                    <Button vertical active={this.state.Tabs.Tab1} onPress={() => this.setState({ Tabs: { Tab1: true, Tab2: false, Tab3: false } })}>
-                      <Icon type='MaterialCommunityIcons' name="wallet-giftcard" color='#d93e3f' />
-                      <Text active={this.state.Tabs.Tab1}>Cards</Text>
-                    </Button>
-                    <Button vertical active={this.state.Tabs.Tab2} onPress={() => this.setState({ Tabs: { Tab1: false, Tab2: true, Tab3: false } })}>
-                      <Icon type='FontAwesome' name="list-ul" color='#d93e3f' />
-                      <Text active={this.state.Tabs.Tab2}>categorías</Text>
-                    </Button>
-                    <Button vertical active={this.state.Tabs.Tab3} onPress={() => this.setState({ Tabs: { Tab1: false, Tab2: false, Tab3: true } })}>
-                      <Icon type='MaterialCommunityIcons' name="account" color='#d93e3f' />
-                      <Text active={this.state.Tabs.Tab3}>Cuenta</Text>
-                    </Button>
-                  </FooterTab>
-                </StyleProvider>
-              </Footer>
-            </Container>
-            {Toaste}
-          </Root>
-        );
+    if (this.state.Font && this.state.Cards) {
+      var Cont;
+      if (this.state.Tabs.Tab1) {
+        Cont = <Cards sendData={this.getData} />;
+      } else if (this.state.Tabs.Tab2) {
+        Cont = <Categorias />
       } else {
-        return (
-          <Container>
-            <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
-              <Spinner color='blue' size='large' />
-            </Content>
-          </Container>
-        );
+        Cont = <Cuenta />;
       }
+      return (
+        <Container style={{ backgroundColor: '#222b38' }}>
+          {Cont}
+          <Footer>
+            <StyleProvider style={getTheme(Theme)}>
+              <FooterTab>
+                <Button vertical active={this.state.Tabs.Tab1} onPress={() => this.setState({ Tabs: { Tab1: true, Tab2: false, Tab3: false } })}>
+                  <Icon type='MaterialCommunityIcons' name="wallet-giftcard" color='#d93e3f' />
+                  <Text active={this.state.Tabs.Tab1}>Cards</Text>
+                </Button>
+                <Button vertical active={this.state.Tabs.Tab2} onPress={() => this.setState({ Tabs: { Tab1: false, Tab2: true, Tab3: false } })}>
+                  <Icon type='FontAwesome' name="list-ul" color='#d93e3f' />
+                  <Text active={this.state.Tabs.Tab2}>categorías</Text>
+                </Button>
+                <Button vertical active={this.state.Tabs.Tab3} onPress={() => this.setState({ Tabs: { Tab1: false, Tab2: false, Tab3: true } })}>
+                  <Icon type='MaterialCommunityIcons' name="account" color='#d93e3f' />
+                  <Text active={this.state.Tabs.Tab3}>Cuenta</Text>
+                </Button>
+              </FooterTab>
+            </StyleProvider>
+          </Footer>
+        </Container>
+      );
     } else {
       return (
-        <Root>
-          <Image source={Conexion} resizeMode='cover' style={{ width: '100%', height: '100%' }} />
-        </Root>
+        <Container>
+          <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
+            <Spinner color='blue' size='large' />
+          </Content>
+        </Container>
       );
     }
   }

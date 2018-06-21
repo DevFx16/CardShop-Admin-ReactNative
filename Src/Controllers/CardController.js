@@ -14,15 +14,15 @@ async function Get() {
   }
 }
 
-async function Token(Key) {
+async function Token() {
   try {
-    return await AsyncStorage.getItem(Key);
+    return await AsyncStorage.getItem("User");
   } catch (error) { }
 }
 
-async function SetToken(Data, Key){
+async function SetToken(Data){
   try {
-    await AsyncStorage.setItem(Key, JSON.stringify(Data));
+    await AsyncStorage.setItem("User", JSON.stringify(Data));
   } catch (err) {}
 }
 

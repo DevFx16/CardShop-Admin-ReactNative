@@ -27,6 +27,7 @@
     "react-native-easy-grid": "^0.1.17",
     "react-native-link": "^4.1.0",
     "react-native-maps": "^0.21.0",
-    "react-native-modalbox": "^1.5.0"
+    "react-native-modalbox": "^1.5.0",
+    "react-navigation": "^2.4.1"
   }
 }

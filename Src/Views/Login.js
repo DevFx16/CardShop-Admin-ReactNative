@@ -2,7 +2,6 @@ import React from 'react';
 import { ImageBackground, StatusBar, NetInfo, View } from 'react-native';
 import { Container, Content, Item, Icon, Input, Form, Footer, Button, Text, Spinner } from 'native-base';
 import Card from '../Controllers/CardController';
-import Principal from '../Views/Principal';
 import ModalBox from '../Views/ModalBox';
 
 var LoginImage, Conexion, Modal;
@@ -10,36 +9,17 @@ var LoginImage, Conexion, Modal;
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { Font: false, Network: true, User: { Username: '', Password: '' }, ModalTexto: '', status: 400, Token: '', ModalView: false, ModalImage: false, ModalImageSet: '' };
+    this.state = { Font: false, Login: false, User: { Username: '', Password: '' }, ModalTexto: '', status: 400, Token: '', ModalView: false, ModalImage: false, ModalImageSet: '' };
+  }
+
+  static navigationOptions = {
+    header: null
   }
 
   componentDidMount() {
-    Card.Token('Token').then((Value) => {
-      if (Value !== null) {
-        Card.Verificar(Value.token).then((Res) => {
-          if (Res.status == 200) {
-            Json = JSON.parse(Value);
-            this.setState({ Token: Json.token });
-          } else {
-            Card.Token('User').then((User) => {
-              if (User !== null) {
-                this.setState({ User: User });
-                this.Login();
-              }
-            });
-          }
-        });
-      }
-    });
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     StatusBar.setHidden(true);
     LoginImage = require('../Images/Login.jpg');
     Conexion = require('../Images/Conexion.png');
-  }
-  handleConnectionChange = () => {
-    NetInfo.isConnected.fetch().then(isConnected => {
-      this.setState({ Network: isConnected });
-    });
   }
   async componentWillMount() {
     await Expo.Font.loadAsync({
@@ -48,8 +28,26 @@ export default class Login extends React.Component {
       'Ionicons': require("@expo/vector-icons/fonts/Ionicons.ttf"),
     });
     this.setState({ Font: true });
+    Card.Token().then((Value) => {
+      if (Value !== null) {
+        Json = JSON.parse(Value);
+        Card.Verificar(Json.Token.token).then((Res) => {
+          if (Res.status == 200) {
+            this.props.navigation.push('Principal', Json.Token);
+          } else {
+            Card.Token().then((User) => {
+              if (User !== null) {
+                console.log(Json);
+                this.setState({ User: { Username: Json.User.Username, Password: Json.User.Password } });
+                this.Login();
+              }
+            });
+          }
+        });
+      }
+    });
   }
-  Login() {
+  Login = () => {
     if (this.state.User.Username.length <= 0 || this.state.User.Password.length <= 0) {
       this.setState({ ModalTexto: 'Se requieren los campos', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });
     } else {
@@ -59,9 +57,9 @@ export default class Login extends React.Component {
           this.setState({ status: Res.status });
           (Res.json()).then((Json) => {
             if (this.state.status == 200) {
-              Card.SetToken(Json, 'Token');
-              Card.SetToken(this.state.User, 'User');
-              this.setState({ Token: Json.token, ModalView: false });
+              Card.SetToken({ Token: Json, User: this.state.User });
+              this.props.navigation.push('Principal', Json);
+              this.setState({ ModalView: false, Login: true });
             } else {
               this.setState({ ModalTexto: Json, ModalImage: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });
             }
@@ -70,49 +68,37 @@ export default class Login extends React.Component {
     }
   }
   render() {
-    if (this.state.Network) {
-      if (this.state.Font) {
-        if (this.state.Token.length <= 0) {
-          return (
-            <ImageBackground source={LoginImage} resizeMode='cover' style={{ width: '100%', height: '100%' }}>
-              <Container>
-                <Content padder contentContainerStyle={{ flex: 1, justifyContent: 'flex-end' }}>
-                  <Form style={{ marginRight: 10 }}>
-                    <Item>
-                      <Icon active type='FontAwesome' name='user-circle' style={{ color: 'white' }} />
-                      <Input style={{ color: 'white' }} placeholder="Username" onChangeText={(Username) => this.setState({ User: { Username: Username, Password: this.state.User.Password }, ModalView: false })} />
-                    </Item>
-                    <Item>
-                      <Icon active type='MaterialIcons' name='vpn-key' style={{ color: 'white', fontSize: 20, }} />
-                      <Input style={{ color: 'white' }} secureTextEntry={true} placeholder="Password" onChangeText={(Password) => this.setState({ User: { Username: this.state.User.Username, Password: Password }, ModalView: false })} />
-                    </Item>
-                  </Form>
-                  <Button block rounded iconLeft style={{ marginTop: 40, backgroundColor: '#b33b3c' }} onPress={this.Login.bind(this)}>
-                    <Text>Login</Text>
-                  </Button>
-                </Content>
-                <Footer style={{ backgroundColor: 'rgba(0,0,0,0)', marginTop: 40 }} />
-              </Container>
-              {this.state.ModalView ? <ModalBox Text={this.state.ModalTexto} SpinnerComp={!this.state.ModalImage} Close={this.state.ModalImage} Image={this.state.ModalImage} ImageSet={this.state.ModalImageSet} /> : null}
-            </ImageBackground>
-          );
-        } else {
-          return (
-            <Principal Token={this.state.Token} />
-          );
-        }
-      } else {
-        return (
+    if (this.state.Font) {
+      return (
+        <ImageBackground source={{uri: 'https://image.ibb.co/bWnJVT/Login.png'}} resizeMode='cover' style={{ width: '100%', height: '100%' }}>
           <Container>
-            <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
-              <Spinner color='blue' size='large' />
+            <Content padder contentContainerStyle={{ flex: 1, justifyContent: 'flex-end' }}>
+              <Form style={{ marginRight: 10 }}>
+                <Item>
+                  <Icon active type='FontAwesome' name='user-circle' style={{ color: 'white' }} />
+                  <Input style={{ color: 'white' }} placeholder="Username" onChangeText={(Username) => this.setState({ User: { Username: Username, Password: this.state.User.Password }, ModalView: false })} />
+                </Item>
+                <Item>
+                  <Icon active type='MaterialIcons' name='vpn-key' style={{ color: 'white', fontSize: 20, }} />
+                  <Input style={{ color: 'white' }} secureTextEntry={true} placeholder="Password" onChangeText={(Password) => this.setState({ User: { Username: this.state.User.Username, Password: Password }, ModalView: false })} />
+                </Item>
+              </Form>
+              <Button block rounded iconLeft style={{ marginTop: 40, backgroundColor: '#b33b3c' }} onPress={this.Login.bind(this)}>
+                <Text>Login</Text>
+              </Button>
             </Content>
+            <Footer style={{ backgroundColor: 'rgba(0,0,0,0)', marginTop: 40 }} />
           </Container>
-        );
-      }
+          {this.state.ModalView ? <ModalBox Text={this.state.ModalTexto} SpinnerComp={!this.state.ModalImage} Close={this.state.ModalImage} Image={this.state.ModalImage} ImageSet={this.state.ModalImageSet} /> : null}
+        </ImageBackground>
+      );
     } else {
       return (
-        <ImageBackground source={Conexion} resizeMode='cover' style={{ width: '100%', height: '100%' }} />
+        <Container>
+          <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
+            <Spinner color='blue' size='large' />
+          </Content>
+        </Container>
       );
     }
   }

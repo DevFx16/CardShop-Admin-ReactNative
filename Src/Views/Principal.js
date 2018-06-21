@@ -6,7 +6,6 @@ import Cards from '../Views/Cards';
 import Controller from '../Controllers/CardController';
 import Categorias from '../Views/Categorias';
 import Cuenta from '../Views/Cuenta';
-import PropTypes from 'prop-types';
 
 var Conexion;
 
@@ -16,10 +15,14 @@ export default class Principal extends React.Component {
     this.state = { Font: false, Network: true, Tabs: { Tab1: true, Tab2: false, Tab3: false }, Cards: false, Backend: [] };
     Conexion = require('../Images/Conexion.png');
   }
+  static navigationOptions = {
+    header: null
+  }
   componentDidMount() {
     Controller.Get().then((json) => {
       this.setState({ Backend: json, Cards: true });
     });
+    console.log(this.props.navigation.state.params.token);
   }
   async componentWillMount() {
     await Expo.Font.loadAsync({
@@ -76,8 +79,4 @@ export default class Principal extends React.Component {
       );
     }
   }
-}
-
-Principal.propTypes = {
-  Token: PropTypes.string.isRequired
 }

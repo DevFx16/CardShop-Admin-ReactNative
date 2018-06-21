@@ -5,7 +5,9 @@ import Theme from '../Themes/Tab';
 import getTheme from '../Themes/components';
 
 export default class Cards extends React.Component {
-
+  static navigationOptions = {
+    header: null
+  }
   constructor(props) {
     super(props);
   }
@@ -36,7 +38,7 @@ export default class Cards extends React.Component {
               </CardItem>
               <CardItem style={{ borderColor: '#324054', borderWidth: 0 }} bordered>
                 <Left style={{ borderColor: '#324054', borderWidth: 0 }}>
-                  <Button transparent onPress={this.props.sendData('Hola')}>
+                  <Button transparent>
                     <Icon active name="heart" type={'FontAwesome'} style={{ color: '#ffff' }} />
                   </Button>
                 </Left>

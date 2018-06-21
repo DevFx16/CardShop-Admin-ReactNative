@@ -37,7 +37,6 @@ export default class Login extends React.Component {
           } else {
             Card.Token().then((User) => {
               if (User !== null) {
-                console.log(Json);
                 this.setState({ User: { Username: Json.User.Username, Password: Json.User.Password } });
                 this.Login();
               }

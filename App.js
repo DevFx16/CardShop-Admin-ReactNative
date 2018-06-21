@@ -2,7 +2,7 @@ import React from 'react';
 import Login from './Src/Views/Login';
 import Principal from './Src/Views/Principal';
 import { createStackNavigator } from 'react-navigation';
-import { ImageBackground, NetInfo, BackHandler, View } from 'react-native';
+import { ImageBackground, NetInfo, BackHandler } from 'react-native';
 
 export default class App extends React.Component {
   componentDidMount() {

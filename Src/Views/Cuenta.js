@@ -12,7 +12,7 @@ export default class Cuenta extends React.Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{backgroundColor: '#222b38'}}>
         <Header searchBar rounded style={{ backgroundColor: '#d93e3f' }}>
           <Item>
             <Icon name="search" type='FontAwesome' style={{ color: '#d93e3f' }} />

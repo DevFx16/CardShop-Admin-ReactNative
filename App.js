@@ -33,9 +33,8 @@ export class Conexion extends React.Component {
   }
   handleConnectionChange = () => {
     NetInfo.isConnected.fetch().then(isConnected => {
-      console.log(this.state.Frist);
       if (isConnected && this.state.Frist == false) {
-        this.props.navigation.push('Login');
+        this.props.navigation.navigate('Login');
       }
       else if (!isConnected) {
         this.setState({ Frist: false });
@@ -51,7 +50,6 @@ export class Conexion extends React.Component {
 }
 
 const AppStackNavigation = createStackNavigator({
-  Conexion: { screen: Conexion },
-  Login: { screen: Login },
-  Principal: { screen: Principal },
+  Conexion: { screen: Conexion, navigationOptions: () => ({header: null}) },
+  Login: { screen: Login, navigationOptions: () => ({header: null}) },
 })

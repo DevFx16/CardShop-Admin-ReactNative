@@ -1,21 +1,17 @@
 import React from 'react';
-import { ImageBackground, StatusBar, NetInfo, View } from 'react-native';
+import { ImageBackground, StatusBar } from 'react-native';
 import { Container, Content, Item, Icon, Input, Form, Footer, Button, Text, Spinner } from 'native-base';
 import Card from '../Controllers/CardController';
 import ModalBox from '../Views/ModalBox';
+import  Principal  from './Principal';
 
-var LoginImage, Conexion, Modal;
+var Modal;
 
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { Font: false, Login: false, User: { Username: '', Password: '' }, ModalTexto: '', status: 400, Token: '', ModalView: false, ModalImage: false, ModalImageSet: '' };
+    this.state = { Font: false, User: { Username: '', Password: '' }, ModalTexto: '', status: 400, Token: '', ModalView: false, ModalImage: false, ModalImageSet: '' };
   }
-
-  static navigationOptions = {
-    header: null
-  }
-
   componentDidMount() {
     StatusBar.setHidden(true);
     LoginImage = require('../Images/Login.jpg');
@@ -33,7 +29,7 @@ export default class Login extends React.Component {
         Json = JSON.parse(Value);
         Card.Verificar(Json.Token.token).then((Res) => {
           if (Res.status == 200) {
-            this.props.navigation.push('Principal', Json.Token);
+            this.setState({Token: Json.Token.token});
           } else {
             Card.Token().then((User) => {
               if (User !== null) {
@@ -57,8 +53,7 @@ export default class Login extends React.Component {
           (Res.json()).then((Json) => {
             if (this.state.status == 200) {
               Card.SetToken({ Token: Json, User: this.state.User });
-              this.props.navigation.push('Principal', Json);
-              this.setState({ ModalView: false, Login: true });
+              this.setState({ ModalView: false, Token: Json.token });
             } else {
               this.setState({ ModalTexto: Json, ModalImage: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });
             }
@@ -68,29 +63,33 @@ export default class Login extends React.Component {
   }
   render() {
     if (this.state.Font) {
-      return (
-        <ImageBackground source={{uri: 'https://image.ibb.co/bWnJVT/Login.png'}} resizeMode='cover' style={{ width: '100%', height: '100%' }}>
-          <Container>
-            <Content padder contentContainerStyle={{ flex: 1, justifyContent: 'flex-end' }}>
-              <Form style={{ marginRight: 10 }}>
-                <Item>
-                  <Icon active type='FontAwesome' name='user-circle' style={{ color: 'white' }} />
-                  <Input style={{ color: 'white' }} placeholder="Username" onChangeText={(Username) => this.setState({ User: { Username: Username, Password: this.state.User.Password }, ModalView: false })} />
-                </Item>
-                <Item>
-                  <Icon active type='MaterialIcons' name='vpn-key' style={{ color: 'white', fontSize: 20, }} />
-                  <Input style={{ color: 'white' }} secureTextEntry={true} placeholder="Password" onChangeText={(Password) => this.setState({ User: { Username: this.state.User.Username, Password: Password }, ModalView: false })} />
-                </Item>
-              </Form>
-              <Button block rounded iconLeft style={{ marginTop: 40, backgroundColor: '#b33b3c' }} onPress={this.Login.bind(this)}>
-                <Text>Login</Text>
-              </Button>
-            </Content>
-            <Footer style={{ backgroundColor: 'rgba(0,0,0,0)', marginTop: 40 }} />
-          </Container>
-          {this.state.ModalView ? <ModalBox Text={this.state.ModalTexto} SpinnerComp={!this.state.ModalImage} Close={this.state.ModalImage} Image={this.state.ModalImage} ImageSet={this.state.ModalImageSet} /> : null}
-        </ImageBackground>
-      );
+      if (this.state.Token.length > 0) {
+        return (<Principal Token={this.state.Token} />);
+      } else {
+        return (
+          <ImageBackground source={{ uri: 'https://image.ibb.co/bWnJVT/Login.png' }} resizeMode='cover' style={{ width: '100%', height: '100%' }}>
+            <Container>
+              <Content padder contentContainerStyle={{ flex: 1, justifyContent: 'flex-end' }}>
+                <Form style={{ marginRight: 10 }}>
+                  <Item>
+                    <Icon active type='FontAwesome' name='user-circle' style={{ color: 'white' }} />
+                    <Input style={{ color: 'white' }} placeholder="Username" onChangeText={(Username) => this.setState({ User: { Username: Username, Password: this.state.User.Password }, ModalView: false })} />
+                  </Item>
+                  <Item>
+                    <Icon active type='MaterialIcons' name='vpn-key' style={{ color: 'white', fontSize: 20, }} />
+                    <Input style={{ color: 'white' }} secureTextEntry={true} placeholder="Password" onChangeText={(Password) => this.setState({ User: { Username: this.state.User.Username, Password: Password }, ModalView: false })} />
+                  </Item>
+                </Form>
+                <Button block rounded iconLeft style={{ marginTop: 40, backgroundColor: '#b33b3c' }} onPress={this.Login.bind(this)}>
+                  <Text>Login</Text>
+                </Button>
+              </Content>
+              <Footer style={{ backgroundColor: 'rgba(0,0,0,0)', marginTop: 40 }} />
+            </Container>
+            {this.state.ModalView ? <ModalBox Text={this.state.ModalTexto} SpinnerComp={!this.state.ModalImage} Close={this.state.ModalImage} Image={this.state.ModalImage} ImageSet={this.state.ModalImageSet} /> : null}
+          </ImageBackground>
+        );
+      }
     } else {
       return (
         <Container>

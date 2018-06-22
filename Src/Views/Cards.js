@@ -1,19 +1,25 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, BackHandler } from 'react-native';
 import { Text, Icon, Header, Item, Input, Button, Content, Container, StyleProvider, Body, Left, Card, CardItem, Thumbnail, Right } from 'native-base';
 import Theme from '../Themes/Tab';
 import getTheme from '../Themes/components';
 
 export default class Cards extends React.Component {
-  static navigationOptions = {
-    header: null
-  }
+
   constructor(props) {
     super(props);
+    this.state = {Backen: [], Backup: [], Cards: true}
   }
+
+  componentDidMount(){
+    BackHandler.addEventListener('hardwareBackPress', function () {
+      BackHandler.exitApp();
+    });
+  }
+
   render() {
     return (
-      <Container>
+      <Container style={{backgroundColor: '#222b38'}}>
         <Header searchBar rounded style={{ backgroundColor: '#d93e3f' }}>
           <Item>
             <Icon name="search" type='FontAwesome' style={{ color: '#d93e3f' }} />

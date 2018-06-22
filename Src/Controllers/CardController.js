@@ -7,7 +7,6 @@ async function Get() {
   try {
     let response = await fetch('https://cards-cardshop.herokuapp.com/Usuarios');
     let responseJson = await response.json();
-    console.log(responseJson);
     return responseJson;
   } catch (error) {
     return null;

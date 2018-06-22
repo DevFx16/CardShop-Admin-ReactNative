@@ -9,23 +9,19 @@ export default class Cards extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {Datos: {}}
+    this.state ={Datos: {Datos: this.props.screenProps.Backend, Token: this.props.screenProps.Token}}
   }
 
-  Datos(){
-    Controller.Datos('Datos').then((json) => {
-      if(json !== null){
-        Json = JSON.parse(json);
-        this.setState({Datos: Json});
-      } 
-    });
+  componentWillReceiveProps(newProps) {
+    if (newProps.screenProps.route_index === 0) {
+      this.setState({Datos: {Datos: newProps.screenProps.Backend, Token: newProps.screenProps.Token}});
+    }
   }
 
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', function () {
       BackHandler.exitApp();
     });
-    this.Datos();
   }
 
   render() {

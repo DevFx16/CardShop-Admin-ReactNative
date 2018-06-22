@@ -9,7 +9,15 @@ export default class Categorias extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state ={Datos: {Datos: this.props.screenProps.Backend, Token: this.props.screenProps.Token}}
   }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.screenProps.route_index === 1) {
+      this.setState({Datos: {Datos: newProps.screenProps.Backend, Token: newProps.screenProps.Token}});
+    }
+  }
+
   render() {
     return (
       <Container style={{backgroundColor: '#222b38'}}>

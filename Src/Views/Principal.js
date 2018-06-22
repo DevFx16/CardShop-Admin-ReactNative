@@ -46,20 +46,28 @@ const Tabs = createBottomTabNavigator({
 export default class Principal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { Cards: false, Backend: [] };
+    this.state = { Cards: false, Backend: [], route_index: 0, Token: '' };
+  }
+  _onNavigationStateChange = (prevState, newState) => {
+    Controller.Datos('Datos').then((json) => {
+      if(json !== null){
+        Json = JSON.parse(json);
+        this.setState({Backend: Json.Cards, route_index: newState.index, Token: Json.Token});
+      } 
+    });
   }
   componentDidMount() {
     Controller.Get().then((json) => {
       this.setState({ Backend: json});
       Controller.setDatos({Cards : json, Token: this.props.Token}, 'Datos').then(() =>{
-        this.setState({ Cards: true});
+        this.setState({ Cards: true, Token: this.props.Token});
       });
     });
   }
 
   render() {
     if(this.state.Cards){
-      return(<Tabs/>);
+      return(<Tabs onNavigationStateChange={this._onNavigationStateChange} screenProps={this.state}/>);
     }else{
       return (
         <Container>

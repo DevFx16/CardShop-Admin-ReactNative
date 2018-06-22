@@ -7,7 +7,13 @@ export default class Cuenta extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { Array: ["Amazon 100 USD", "Amazon 50 USD"] }
+    this.state ={Datos: {Datos: this.props.screenProps.Backend, Token: this.props.screenProps.Token}}
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.screenProps.route_index === 2) {
+      this.setState({Datos: {Datos: newProps.screenProps.Backend, Token: newProps.screenProps.Token}});
+    }
   }
 
   render() {
@@ -28,7 +34,7 @@ export default class Cuenta extends React.Component {
             <Row style={{ justifyContent: 'center' }} size={1}>
               <Thumbnail source={require('../Images/amazon.png')} large />
             </Row>
-            <Lista Array={this.state.Array} Icon={{ Nombre: 'amazon', Tipo: 'FontAwesome' }} />
+            <Lista Array={["Amazon 100 USD", "Amazon 50 USD"]} Icon={{ Nombre: 'amazon', Tipo: 'FontAwesome' }} />
             <Row style={{ justifyContent: 'center' }} size={1}>
               <Thumbnail source={{ uri: 'https://cdn4.iconfinder.com/data/icons/free-colorful-icons/360/google_play.png' }} large />
             </Row>

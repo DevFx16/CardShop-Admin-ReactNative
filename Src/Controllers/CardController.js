@@ -13,15 +13,15 @@ async function Get() {
   }
 }
 
-async function Token() {
+async function Datos(Key) {
   try {
-    return await AsyncStorage.getItem("User");
+    return await AsyncStorage.getItem(Key);
   } catch (error) { }
 }
 
-async function SetToken(Data){
+async function setDatos(Data, Key){
   try {
-    await AsyncStorage.setItem("User", JSON.stringify(Data));
+    await AsyncStorage.setItem(Key, JSON.stringify(Data));
   } catch (err) {}
 }
 
@@ -55,4 +55,4 @@ function Login(Json) {
     })
 }
 
-module.exports = { Get, Login, Delete, Token, SetToken, Verificar }
+module.exports = { Get, Login, Delete, Verificar, Datos, setDatos}

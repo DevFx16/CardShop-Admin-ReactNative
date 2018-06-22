@@ -24,9 +24,10 @@ export default class Login extends React.Component {
       'Ionicons': require("@expo/vector-icons/fonts/Ionicons.ttf"),
     });
     this.setState({ Font: true });
-    Card.Token().then((Value) => {
+    Card.Datos('User').then((Value) => {
       if (Value !== null) {
         Json = JSON.parse(Value);
+        this.setState({ ModalTexto: 'Espere validando ingreso...', ModalView: true, ModalImage: false });
         Card.Verificar(Json.Token.token).then((Res) => {
           if (Res.status == 200) {
             this.setState({Token: Json.Token.token});
@@ -52,7 +53,7 @@ export default class Login extends React.Component {
           this.setState({ status: Res.status });
           (Res.json()).then((Json) => {
             if (this.state.status == 200) {
-              Card.SetToken({ Token: Json, User: this.state.User });
+              Card.setDatos({ Token: Json, User: this.state.User }, 'User');
               this.setState({ ModalView: false, Token: Json.token });
             } else {
               this.setState({ ModalTexto: Json, ModalImage: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });

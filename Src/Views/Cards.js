@@ -3,23 +3,34 @@ import { Image, BackHandler } from 'react-native';
 import { Text, Icon, Header, Item, Input, Button, Content, Container, StyleProvider, Body, Left, Card, CardItem, Thumbnail, Right } from 'native-base';
 import Theme from '../Themes/Tab';
 import getTheme from '../Themes/components';
+import Controller from '../Controllers/CardController';
 
 export default class Cards extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {Backen: [], Backup: [], Cards: true}
+    this.state = {Datos: {}}
   }
 
-  componentDidMount(){
+  Datos(){
+    Controller.Datos('Datos').then((json) => {
+      if(json !== null){
+        Json = JSON.parse(json);
+        this.setState({Datos: Json});
+      } 
+    });
+  }
+
+  componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', function () {
       BackHandler.exitApp();
     });
+    this.Datos();
   }
 
   render() {
     return (
-      <Container style={{backgroundColor: '#222b38'}}>
+      <Container style={{ backgroundColor: '#222b38' }}>
         <Header searchBar rounded style={{ backgroundColor: '#d93e3f' }}>
           <Item>
             <Icon name="search" type='FontAwesome' style={{ color: '#d93e3f' }} />

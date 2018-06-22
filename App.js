@@ -18,9 +18,6 @@ export default class App extends React.Component {
 }
 
 export class Conexion extends React.Component {
-  static navigationOptions = {
-    header: null
-  }
   constructor(props) {
     super(props);
     this.state = { Frist: true }

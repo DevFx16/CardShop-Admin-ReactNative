@@ -1,8 +1,6 @@
 import React from 'react';
-import { Card, CardItem, Icon, Button, Left, Right, Text, StyleProvider, View } from 'native-base';
+import { Card, CardItem, Icon, Button, Left, Right, Text, View } from 'native-base';
 import PropTypes from 'prop-types';
-import Theme from '../Themes/Tab'
-import getTheme from '../Themes/components';
 
 export default class List extends React.Component {
 
@@ -23,7 +21,7 @@ export default class List extends React.Component {
                       <Icon active name="edit" type='FontAwesome' style={{ color: 'blue' }} />
                     </Button>
                   </Left>
-                  <Text style={{ color: "#ffff" }}>{Data}</Text>
+                  <Text style={{ color: "#ffff" }}>{Data.Nombre+' '+Data.Disponible+' USD'}</Text>
                   <Icon name={this.props.Icon.Nombre} type={this.props.Icon.Tipo} style={{ color: '#ffff' }} />
                   <Right>
                     <Button transparent onPress={() => alert('Trash')} iconLeft>

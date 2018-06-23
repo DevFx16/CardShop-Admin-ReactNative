@@ -3,7 +3,7 @@ import { ImageBackground, StatusBar } from 'react-native';
 import { Container, Content, Item, Icon, Input, Form, Footer, Button, Text, Spinner } from 'native-base';
 import Card from '../Controllers/CardController';
 import ModalBox from '../Views/ModalBox';
-import  Principal  from './Principal';
+import Principal from './Principal';
 
 var Modal;
 
@@ -28,14 +28,10 @@ export default class Login extends React.Component {
         this.setState({ ModalTexto: 'Espere validando ingreso...', ModalView: true, ModalImage: false });
         Card.Verificar(Json.Token.token).then((Res) => {
           if (Res.status == 200) {
-            this.setState({Token: Json.Token.token});
+            this.setState({ Token: Json.Token.token });
           } else {
-            Card.Token().then((User) => {
-              if (User !== null) {
-                this.setState({ User: { Username: Json.User.Username, Password: Json.User.Password } });
-                this.Login();
-              }
-            });
+            this.setState({ User: { Username: Json.User.Username, Password: Json.User.Password } });
+            this.Login();
           }
         });
       }

@@ -14,8 +14,6 @@ export default class Login extends React.Component {
   }
   componentDidMount() {
     StatusBar.setHidden(true);
-    LoginImage = require('../Images/Login.jpg');
-    Conexion = require('../Images/Conexion.png');
   }
   async componentWillMount() {
     await Expo.Font.loadAsync({

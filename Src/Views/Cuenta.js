@@ -32,7 +32,7 @@ export default class Cuenta extends React.Component {
         <Content padder contentContainerStyle={{ alignContent: 'center' }}>
           <Grid>
             <Row style={{ justifyContent: 'center' }} size={1}>
-              <Thumbnail source={require('../Images/amazon.png')} large />
+              <Thumbnail source={{uri: 'https://cdn2.iconfinder.com/data/icons/funky/64/Amazon-2-512.png'}} large />
             </Row>
             <Lista Array={["Amazon 100 USD", "Amazon 50 USD"]} Icon={{ Nombre: 'amazon', Tipo: 'FontAwesome' }} />
             <Row style={{ justifyContent: 'center' }} size={1}>

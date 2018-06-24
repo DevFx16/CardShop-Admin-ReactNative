@@ -35,11 +35,9 @@ function Verificar(Token) {
     })
 }
 
-async function Delete(Uri, Id) {
+async function Delete(Uri, Id, Token) {
   try {
-    let response = await fetch((Url + Uri + Id), { method: 'DELETE', headers: { Accept: 'application/json', 'Content-Type': 'application/json' } });
-    let responseJson = await response.json();
-    return responseJson;
+    return await fetch((Url + Uri + Id), { method: 'DELETE', headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + Token }});
   } catch (error) {
     console.error(error);
   }

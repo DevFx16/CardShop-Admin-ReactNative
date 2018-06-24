@@ -15,7 +15,7 @@ const Tabs = createBottomTabNavigator({
   Cuenta: { screen: Cuenta }
 }, {
     tabBarPosition: 'bottom',
-    swipeEnabled: true,
+    swipeEnabled: false,
     navigationOptions: ({ navigation }) => ({
       tabBarComponent: (props) => {
         const { routeName } = navigation.state;

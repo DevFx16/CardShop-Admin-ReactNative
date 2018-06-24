@@ -1,7 +1,6 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { Icon, Content, Button, Container, Header, Item, Input, Thumbnail, Form, Picker, Text, Card, CardItem, Left, Right, Spinner } from 'native-base';
-import { Col, Row, Grid } from "react-native-easy-grid";
+import { Icon, Content, Button, Container, Header, Item, Input, Form, Picker, Text, Card, CardItem, Left, Right, Spinner } from 'native-base';
 import Modal from 'react-native-modalbox';
 import CardCo from '../Controllers/CardController';
 import ModalBox from '../Views/ModalBox';
@@ -16,44 +15,43 @@ export default class Cuenta extends React.Component {
     this.state = { Card: { Nombre: 'Amazon', UrlIcon: 'http://www.kimlukeauthor.com/wp-content/uploads/2015/03/Amazon-Icon.png', UrlCard: '', Valor: 0, Disponible: 0 }, ModalView: false, ModalImage: false, ModalImageSet: '', Cards: this.props.screenProps.Backend, Token: this.props.screenProps.Token, Elements: [], Load: false }
 
   }
-  async CardsArray() {
+
+  CardsArray = async () =>{
     var Element = []
     this.state.Cards.map((Cards, index) => {
       Cards.map((Data) => {
-        Element.push(this.renderCards(Data, index));
+        Element.push(
+          <Card key={index} style={{ borderWidth: 0, borderRadius: 10, borderColor: '#324054', backgroundColor: '#324054' }}>
+            <CardItem icon style={{ borderColor: '#324054', borderWidth: 0, backgroundColor: '#324054' }}>
+              <Left>
+                <Button transparent onPress={() => alert('Edit')} iconLeft>
+                  <Icon active name="edit" type='FontAwesome' style={{ color: 'blue' }} />
+                </Button>
+              </Left>
+              <Text style={{ color: "#ffff" }}>{Data.Nombre + ' ' + Data.Disponible + ' USD'}</Text>
+              <Icon name={Iconos[index].Nombre} type={Iconos[index].Tipo} style={{ color: '#ffff' }} />
+              <Right>
+                <Button transparent iconLeft onPress={this.Eliminar.bind(this, Data.Id, Data.Nombre)}>
+                  <Icon active name="trash" type='Entypo' style={{ color: 'red' }} />
+                </Button>
+              </Right>
+            </CardItem>
+          </Card>
+        );
       })
     })
-    this.setState({ Elements: Element, Load: true });
+    this.setState({ Elements: Element, Load: true, ModalView: false });
   }
+
   async componentDidMount() {
     this.CardsArray();
   }
-  async componentWillReceiveProps(newProps) {
+
+  componentWillReceiveProps(newProps) {
     if (newProps.screenProps.route_index === 2) {
       this.setState({ ModalView: false, Cards: newProps.screenProps.Backend, Token: newProps.screenProps.Token, Load: false });
       this.CardsArray();
     }
-  }
-
-  renderCards(Data, index) {
-    return (
-      <Card key={index} style={{ borderWidth: 0, borderRadius: 10, borderColor: '#324054', backgroundColor: '#324054' }}>
-        <CardItem icon style={{ borderColor: '#324054', borderWidth: 0, backgroundColor: '#324054' }}>
-          <Left>
-            <Button transparent onPress={() => alert('Edit')} iconLeft>
-              <Icon active name="edit" type='FontAwesome' style={{ color: 'blue' }} />
-            </Button>
-          </Left>
-          <Text style={{ color: "#ffff" }}>{Data.Nombre + ' ' + Data.Disponible + ' USD'}</Text>
-          <Icon name={Iconos[index].Nombre} type={Iconos[index].Tipo} style={{ color: '#ffff' }} />
-          <Right>
-            <Button transparent iconLeft>
-              <Icon active name="trash" type='Entypo' style={{ color: 'red' }} />
-            </Button>
-          </Right>
-        </CardItem>
-      </Card>
-    );
   }
 
   PickerValue = (Value) => {
@@ -76,10 +74,10 @@ export default class Cuenta extends React.Component {
     this.setState({ Card: { Nombre: Value, UrlIcon: Url, UrlCard: this.state.Card.UrlCard, Valor: this.state.Card.Valor, Disponible: this.state.Card.Disponible }, ModalView: false })
   }
 
-  Eliminar = (Id, Tipo) => {
-    console.log("Hola");
+  Eliminar = async (Id, Tipo) => {
     this.setState({ ModalTexto: 'Espere...', ModalView: true, ModalImage: false });
     CardCo.Delete(Tipo, Id, this.state.Token).then((Res) => {
+      console.log(Res);
       if (Res.status == 401) {
         CardCo.ReAuth();
         this.Eliminar(Tipo, Id, this.state.Token);
@@ -95,7 +93,8 @@ export default class Cuenta extends React.Component {
       }
     })
   }
-  Añadir = () => {
+
+  Añadir = async () => {
     var noValido = / /;
     if (this.state.Card.Nombre.length <= 0 || this.state.Card.UrlCard.length <= 0 || this.state.Card.UrlIcon.length <= 0 || this.state.Card.Disponible <= 0 || this.state.Card.Valor <= 0 || noValido.test(this.state.Card.UrlCard)) {
       this.setState({ ModalTexto: 'Se requieren los campos', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });
@@ -109,7 +108,7 @@ export default class Cuenta extends React.Component {
           if (Res.status == 200) {
             (Res.json()).then((Res) => {
               CardCo.setDatos({ Cards: Res, Token: this.state.Token }, 'Datos');
-              this.setState({ ModalTexto: 'Se ha registrado', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-512.png' });
+              this.setState({ ModalTexto: 'Se ha registrado', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-512.png', Cards: Res });
             })
           } else {
             this.setState({ ModalTexto: 'Ha ocurrido un error vuelva a intentar', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });

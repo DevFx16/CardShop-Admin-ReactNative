@@ -12,13 +12,13 @@ export default class Cuenta extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { Card: { Nombre: 'Amazon', UrlIcon: 'http://www.kimlukeauthor.com/wp-content/uploads/2015/03/Amazon-Icon.png', UrlCard: '', Valor: 0, Disponible: 0 }, ModalView: false, ModalImage: false, ModalImageSet: '', Cards: this.props.screenProps.Backend, Token: this.props.screenProps.Token, Elements: [], Load: false }
+    this.state = { Card: { Nombre: 'Amazon', UrlIcon: 'http://www.kimlukeauthor.com/wp-content/uploads/2015/03/Amazon-Icon.png', UrlCard: '', Valor: 0, Disponible: 0 }, ModalView: false, ModalImage: false, ModalImageSet: '', Token: this.props.screenProps.Token, Elements: [], Load: false, Buscar: '' }
 
   }
 
-  CardsArray = async () =>{
+  CardsArray = async (Array) => {
     var Element = []
-    this.state.Cards.map((Cards, index) => {
+    Array.map((Cards, index) => {
       Cards.map((Data) => {
         Element.push(
           <Card key={index} style={{ borderWidth: 0, borderRadius: 10, borderColor: '#324054', backgroundColor: '#324054' }}>
@@ -44,13 +44,13 @@ export default class Cuenta extends React.Component {
   }
 
   async componentDidMount() {
-    this.CardsArray();
+    this.CardsArray(this.props.screenProps.Backend);
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.screenProps.route_index === 2) {
-      this.setState({ ModalView: false, Cards: newProps.screenProps.Backend, Token: newProps.screenProps.Token, Load: false });
-      this.CardsArray();
+      this.setState({ ModalView: false, Token: newProps.screenProps.Token, Load: false });
+      this.CardsArray(newProps.screenProps.Backend);
     }
   }
 
@@ -85,7 +85,8 @@ export default class Cuenta extends React.Component {
         if (Res.status == 200) {
           (Res.json()).then((Res) => {
             CardCo.setDatos({ Cards: Res, Token: this.state.Token }, 'Datos');
-            this.setState({ ModalTexto: 'Se ha eliminado', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-512.png' });
+            this.setState({ ModalTexto: 'Se ha eliminado', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-512.png', Load: false });
+            this.CardsArray(Res);
           })
         } else {
           this.setState({ ModalTexto: 'Ha ocurrido un error vuelva a intentar', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });
@@ -108,7 +109,8 @@ export default class Cuenta extends React.Component {
           if (Res.status == 200) {
             (Res.json()).then((Res) => {
               CardCo.setDatos({ Cards: Res, Token: this.state.Token }, 'Datos');
-              this.setState({ ModalTexto: 'Se ha registrado', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-512.png', Cards: Res });
+              this.setState({ ModalTexto: 'Se ha registrado', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-512.png', Load: false });
+              this.CardsArray(Res);
             })
           } else {
             this.setState({ ModalTexto: 'Ha ocurrido un error vuelva a intentar', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });
@@ -118,16 +120,38 @@ export default class Cuenta extends React.Component {
     }
   }
 
+  Buscar = async () => {
+    if (this.state.Buscar.length > 0) {
+      this.setState({ Load: false });
+      var Array = [], Cards = [];
+      this.state.Backup.map((item) => {
+        item.map((CardCom) => {
+          if (('GIFTCARD ' + CardCom.Nombre.toUpperCase() + ' ' + CardCom.Valor).includes(this.state.Buscar.toUpperCase())) {
+            Array.push(CardCom);
+          }
+        })
+      })
+      Cards.push(Array);
+      this.setState({ Buscar: '' });
+      this.renderArray(Cards);
+    } else {
+      this.setState({ Load: false });
+      this.renderArray(this.state.Backup);
+    }
+  }
+
   render() {
     return (
       <Container style={{ backgroundColor: '#222b38' }}>
         <Header searchBar rounded style={{ backgroundColor: '#d93e3f' }}>
           <Item>
-            <Icon name="search" type='FontAwesome' style={{ color: '#d93e3f' }} />
-            <Input placeholder="Buscar" />
+            <Input placeholder="Buscar" onChangeText={(Text) => this.setState({ Buscar: Text })} />
             <Icon name="cards" type='MaterialCommunityIcons' style={{ color: '#d93e3f' }} />
             <Button transparent onPress={() => this.refs.Modal.open()}>
               <Icon active name="add-to-photos" type='MaterialIcons' style={{ color: '#d93e3f' }} />
+            </Button>
+            <Button transparent onPress={this.Buscar.bind(this)} active={this.state.Load}>
+              <Icon name="search" type='FontAwesome' style={{ color: '#d93e3f' }} />
             </Button>
           </Item>
         </Header>

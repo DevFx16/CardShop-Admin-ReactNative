@@ -42,7 +42,7 @@ export default class Cards extends React.Component {
     if (this.state.Buscar.length > 0) {
       this.setState({ Load: false});
       var Array = [], Cards = [];
-      this.state.Backup.map((item) => {
+      this.props.screenProps.Backend.map((item) => {
         item.map((CardCom) => {
           if (('GIFTCARD ' + CardCom.Nombre.toUpperCase() + ' ' + CardCom.Valor).includes(this.state.Buscar.toUpperCase())) {
             Array.push(CardCom);
@@ -54,7 +54,7 @@ export default class Cards extends React.Component {
       this.renderArray(Cards);
     } else {
       this.setState({Load: false });
-      this.renderArray(this.state.Backup);
+      this.renderArray(this.props.screenProps.Backend);
     }
   }
 

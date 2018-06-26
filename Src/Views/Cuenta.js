@@ -48,6 +48,7 @@ export default class Cuenta extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
+    this.setState({ ModalView: false});
     if (newProps.screenProps.route_index === 2) {
       this.setState({ ModalView: false, Token: newProps.screenProps.Token, Load: false });
       this.CardsArray(newProps.screenProps.Backend);
@@ -77,16 +78,16 @@ export default class Cuenta extends React.Component {
   Eliminar = async (Id, Tipo) => {
     this.setState({ ModalTexto: 'Espere...', ModalView: true, ModalImage: false });
     CardCo.Delete(Tipo, Id, this.state.Token).then((Res) => {
-      console.log(Res);
       if (Res.status == 401) {
         CardCo.ReAuth();
         this.Eliminar(Tipo, Id, this.state.Token);
       } else {
         if (Res.status == 200) {
-          (Res.json()).then((Res) => {
-            CardCo.setDatos({ Cards: Res, Token: this.state.Token }, 'Datos');
+          (Res.json()).then((json) => {
+            console.log(json);
+            CardCo.setDatos({ Cards: json, Token: this.state.Token }, 'Datos');
             this.setState({ ModalTexto: 'Se ha eliminado', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-512.png', Load: false });
-            this.CardsArray(Res);
+            this.CardsArray(json);
           })
         } else {
           this.setState({ ModalTexto: 'Ha ocurrido un error vuelva a intentar', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });
@@ -107,10 +108,11 @@ export default class Cuenta extends React.Component {
           Añadir();
         } else {
           if (Res.status == 200) {
-            (Res.json()).then((Res) => {
-              CardCo.setDatos({ Cards: Res, Token: this.state.Token }, 'Datos');
-              this.setState({ ModalTexto: 'Se ha registrado', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-512.png', Load: false });
-              this.CardsArray(Res);
+            (Res.json()).then((json) => {
+              console.log(json);
+              CardCo.setDatos({ Cards: json, Token: this.state.Token }, 'Datos');
+              this.setState({ ModalTexto: 'Se ha registrado', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-512.png', Load: false,  Card: { Nombre: 'Amazon', UrlIcon: 'http://www.kimlukeauthor.com/wp-content/uploads/2015/03/Amazon-Icon.png', UrlCard: '', Valor: 0, Disponible: 0 }});
+              this.CardsArray(json);
             })
           } else {
             this.setState({ ModalTexto: 'Ha ocurrido un error vuelva a intentar', ModalImage: true, ModalView: true, ModalImageSet: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png' });
@@ -124,7 +126,7 @@ export default class Cuenta extends React.Component {
     if (this.state.Buscar.length > 0) {
       this.setState({ Load: false });
       var Array = [], Cards = [];
-      this.state.Backup.map((item) => {
+      this.props.screenProps.Backend.map((item) => {
         item.map((CardCom) => {
           if (('GIFTCARD ' + CardCom.Nombre.toUpperCase() + ' ' + CardCom.Valor).includes(this.state.Buscar.toUpperCase())) {
             Array.push(CardCom);
@@ -133,10 +135,10 @@ export default class Cuenta extends React.Component {
       })
       Cards.push(Array);
       this.setState({ Buscar: '' });
-      this.renderArray(Cards);
+      this.CardsArray(Cards);
     } else {
       this.setState({ Load: false });
-      this.renderArray(this.state.Backup);
+      this.CardsArray(this.props.screenProps.Backend);
     }
   }
 
@@ -145,7 +147,7 @@ export default class Cuenta extends React.Component {
       <Container style={{ backgroundColor: '#222b38' }}>
         <Header searchBar rounded style={{ backgroundColor: '#d93e3f' }}>
           <Item>
-            <Input placeholder="Buscar" onChangeText={(Text) => this.setState({ Buscar: Text })} />
+            <Input placeholder="Buscar" onChangeText={(Text) => this.setState({ Buscar: Text })} value={this.state.Buscar}/>
             <Icon name="cards" type='MaterialCommunityIcons' style={{ color: '#d93e3f' }} />
             <Button transparent onPress={() => this.refs.Modal.open()}>
               <Icon active name="add-to-photos" type='MaterialIcons' style={{ color: '#d93e3f' }} />
@@ -170,15 +172,15 @@ export default class Cuenta extends React.Component {
             <Form style={{ marginRight: 10 }}>
               <Item>
                 <Icon active type='MaterialIcons' name='attach-money' style={{ color: 'black' }} />
-                <Input style={{ color: 'black' }} placeholder="Valor" onChangeText={(Valor) => this.setState({ Card: { Nombre: this.state.Card.Nombre, UrlIcon: this.state.Card.UrlIcon, UrlCard: this.state.Card.UrlCard, Valor: Valor, Disponible: this.state.Card.Disponible }, ModalView: false })} keyboardType='numeric' />
+                <Input style={{ color: 'black' }} placeholder="Valor" onChangeText={(Valor) => this.setState({ Card: { Nombre: this.state.Card.Nombre, UrlIcon: this.state.Card.UrlIcon, UrlCard: this.state.Card.UrlCard, Valor: Valor, Disponible: this.state.Card.Disponible }, ModalView: false })} keyboardType='numeric'/>
               </Item>
               <Item>
                 <Icon active type='FontAwesome' name='check-circle' style={{ color: 'black', fontSize: 20, }} />
-                <Input style={{ color: 'black' }} placeholder="Disponibilidad" onChangeText={(Disponible) => this.setState({ Card: { Nombre: this.state.Card.Nombre, UrlIcon: this.state.Card.UrlIcon, UrlCard: this.state.Card.UrlCard, Valor: this.state.Card.Valor, Disponible: Disponible }, ModalView: false })} keyboardType='numeric' />
+                <Input style={{ color: 'black' }} placeholder="Disponibilidad" onChangeText={(Disponible) => this.setState({ Card: { Nombre: this.state.Card.Nombre, UrlIcon: this.state.Card.UrlIcon, UrlCard: this.state.Card.UrlCard, Valor: this.state.Card.Valor, Disponible: Disponible }, ModalView: false })} keyboardType='numeric'/>
               </Item>
               <Item>
                 <Icon active type='MaterialCommunityIcons' name='weather-pouring' style={{ color: 'black', fontSize: 20, }} />
-                <Input style={{ color: 'black' }} placeholder="Url Card" onChangeText={(Url) => this.setState({ Card: { Nombre: this.state.Card.Nombre, UrlIcon: this.state.Card.UrlIcon, UrlCard: Url, Valor: this.state.Card.Valor, Disponible: this.state.Card.Disponible }, ModalView: false })} />
+                <Input style={{ color: 'black' }} placeholder="Url Card" onChangeText={(Url) => this.setState({ Card: { Nombre: this.state.Card.Nombre, UrlIcon: this.state.Card.UrlIcon, UrlCard: Url, Valor: this.state.Card.Valor, Disponible: this.state.Card.Disponible }, ModalView: false })}/>
               </Item>
               <Item>
                 <Picker
@@ -192,7 +194,7 @@ export default class Cuenta extends React.Component {
                   {
                     Array.map((Tipo, index) => {
                       return (
-                        <Picker.Item label={Tipo} value={Tipo} key={index} />
+                        <Picker.Item label={Tipo} value={Tipo} key={Tipo+index} />
                       );
                     })
                   }

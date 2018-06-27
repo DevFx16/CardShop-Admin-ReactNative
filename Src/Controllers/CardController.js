@@ -63,6 +63,16 @@ function Post(Json, Tipo, Token) {
     })
 }
 
+function Put(Json, Tipo, Token, Id) {
+  return fetch((Url + Tipo + '/' + Id), { method: 'PUT', headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + Token }, body: Json })
+    .then((Response) => {
+      return Response;
+    })
+    .catch((Error) => {
+      return Error;
+    })
+}
+
 function ReAuth() {
   Card.Datos('User').then((Value) => {
     if (Value !== null) {
@@ -79,4 +89,4 @@ function ReAuth() {
   });
 }
 
-module.exports = { Get, Login, Delete, Verificar, Datos, setDatos, Post, ReAuth }
+module.exports = { Get, Login, Delete, Verificar, Datos, setDatos, Post, ReAuth, Put }

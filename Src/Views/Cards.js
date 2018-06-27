@@ -17,7 +17,7 @@ export default class Cards extends React.Component {
     Array.map((Cards, index) => {
       Cards.map((Data) => {
         Element.push(
-          <GiftCard Nombre={Data.Nombre} UrlIcon={Data.UrlIcon} Image={'http://www.thebyrdhouse.com/wp-content/uploads/2015/08/giftcard.png'} Disponible={Data.Disponible} key={index} />
+          <GiftCard Nombre={Data.Nombre} UrlIcon={Data.UrlIcon} Image={Data.UrlCard} Disponible={Data.Disponible} key={index} />
         );
       })
     })
@@ -44,7 +44,7 @@ export default class Cards extends React.Component {
       var Array = [], Cards = [];
       this.props.screenProps.Backend.map((item) => {
         item.map((CardCom) => {
-          if (('GIFTCARD ' + CardCom.Nombre.toUpperCase() + ' ' + CardCom.Valor).includes(this.state.Buscar.toUpperCase())) {
+          if (('GIFTCARD ' + CardCom.Nombre.toUpperCase() + ' ' + CardCom.Valor+' USD').includes(this.state.Buscar.toUpperCase())) {
             Array.push(CardCom);
           }
         })

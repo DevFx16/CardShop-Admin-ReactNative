@@ -13,6 +13,14 @@ async function Get() {
   }
 }
 
+async function GetCards(Nombre, Token) {
+  try {
+    return await fetch((Url + Nombre), { method: 'GET', headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + Token }});
+  } catch (error) {
+    return null;
+  }
+}
+
 async function Datos(Key) {
   try {
     return await AsyncStorage.getItem(Key);
@@ -89,4 +97,4 @@ function ReAuth() {
   });
 }
 
-module.exports = { Get, Login, Delete, Verificar, Datos, setDatos, Post, ReAuth, Put }
+module.exports = { Get, Login, Delete, Verificar, Datos, setDatos, Post, ReAuth, Put, GetCards }
